@@ -30,7 +30,7 @@ from .assets import (
     list_available_indices
 )
 
-__version__ = "0.1.2"
+__version__ = "0.1.3"
 __author__ = "Josh Carlisle <josh@bitwiseinvestments.com>"
 
 __all__ = [

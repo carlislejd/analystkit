@@ -6,7 +6,7 @@ import pandas as pd
 import numpy as np
 from typing import List, Dict, Any, Optional, Union
 from .plotly_theme import apply_theme, get_color_palette
-from .colors import SIZE_PRESETS
+from .colors import SIZE_PRESETS, COLOR_HIERARCHY
 
 def create_bar_chart(
     data: Union[pd.DataFrame, List, Dict],
@@ -86,7 +86,17 @@ def create_bar_chart(
         size_preset=size_preset
     )
     
-    # Update labels
+    # Auto-apply Bitwise colors with hierarchy if no custom colors specified
+    if 'color_discrete_sequence' not in kwargs and 'color' not in kwargs:
+        if color_column:
+            unique_values = data[color_column].nunique() if hasattr(data, 'nunique') else len(set(data[color_column]))
+            colors = get_color_palette(unique_values)
+            fig.update_traces(marker_color=colors)
+        else:
+            # For single series, use primary Bitwise color
+            fig.update_traces(marker_color=COLOR_HIERARCHY[1][0])
+    
+    # Only update labels if explicitly provided (no defaults)
     if x_label:
         fig.update_xaxes(title_text=x_label)
     if y_label:
@@ -168,7 +178,17 @@ def create_line_chart(
         size_preset=size_preset
     )
     
-    # Update labels
+    # Auto-apply Bitwise colors with hierarchy if no custom colors specified
+    if 'color_discrete_sequence' not in kwargs and 'color' not in kwargs:
+        if color_column:
+            unique_values = data[color_column].nunique() if hasattr(data, 'nunique') else len(set(data[color_column]))
+            colors = get_color_palette(unique_values)
+            fig.update_traces(marker_color=colors, line_color=colors)
+        else:
+            # For single series, use primary Bitwise color
+            fig.update_traces(marker_color=COLOR_HIERARCHY[1][0], line_color=COLOR_HIERARCHY[1][0])
+    
+    # Only update labels if explicitly provided (no defaults)
     if x_label:
         fig.update_xaxes(title_text=x_label)
     if y_label:
@@ -269,7 +289,17 @@ def create_scatter_chart(
         size_preset=size_preset
     )
     
-    # Update labels
+    # Auto-apply Bitwise colors with hierarchy if no custom colors specified
+    if 'color_discrete_sequence' not in kwargs and 'color' not in kwargs:
+        if color_column:
+            unique_values = data[color_column].nunique() if hasattr(data, 'nunique') else len(set(data[color_column]))
+            colors = get_color_palette(unique_values)
+            fig.update_traces(marker_color=colors)
+        else:
+            # For single series, use primary Bitwise color
+            fig.update_traces(marker_color=COLOR_HIERARCHY[1][0])
+    
+    # Only update labels if explicitly provided (no defaults)
     if x_label:
         fig.update_xaxes(title_text=x_label)
     if y_label:
@@ -293,7 +323,7 @@ def create_heatmap(
         data: 2D data for heatmap
         x_labels: Labels for x-axis
         y_labels: Labels for y-axis
-                x_label: X-axis label
+        x_label: X-axis label
         y_label: Y-axis label
         color_scale: Color scale to use
         size_preset: Size preset to use
@@ -329,15 +359,7 @@ def create_heatmap(
         size_preset=size_preset
     )
     
-    # Apply color hierarchy if no custom colors specified
-    if 'color_discrete_sequence' not in kwargs and 'color' not in kwargs:
-        from .plotly_theme import get_color_palette
-        if color_column:
-            unique_values = data[color_column].nunique() if hasattr(data, 'nunique') else len(set(data[color_column]))
-            colors = get_color_palette(unique_values)
-            fig.update_traces(marker_color=colors)
-    
-    # Update labels
+    # Only update labels if explicitly provided (no defaults)
     if x_label:
         fig.update_xaxes(title_text=x_label)
     if y_label:

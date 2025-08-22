@@ -61,26 +61,25 @@ def apply_theme(fig, size_preset='full'):
         margin=STYLE_DEFAULTS['margin'],
     )
     
-    # Apply axis styling
+    # Apply specific x-axis styling (no grid, no titles)
     fig.update_xaxes(
-        showgrid=True,
-        gridwidth=1,
-        gridcolor=CHART_COLORS['grid_dark'],
-        zeroline=True,
-        zerolinewidth=1,
-        zerolinecolor=CHART_COLORS['grid'],
-        showline=False,  # Remove border lines
+        showgrid=STYLE_DEFAULTS['xaxis']['showgrid'],
+        zeroline=STYLE_DEFAULTS['xaxis']['zeroline'],
+        showline=STYLE_DEFAULTS['xaxis']['showline'],
+        title=STYLE_DEFAULTS['xaxis']['title'],
         tickfont=STYLE_DEFAULTS['font'],
     )
     
+    # Apply specific y-axis styling (horizontal grid lines, no titles)
     fig.update_yaxes(
-        showgrid=True,
-        gridwidth=1,
-        gridcolor=CHART_COLORS['grid_dark'],
-        zeroline=True,
-        zerolinewidth=1,
-        zerolinecolor=CHART_COLORS['grid'],
-        showline=False,  # Remove border lines
+        showgrid=STYLE_DEFAULTS['yaxis']['showgrid'],
+        gridwidth=STYLE_DEFAULTS['yaxis']['gridwidth'],
+        gridcolor=STYLE_DEFAULTS['yaxis']['gridcolor'],
+        zeroline=STYLE_DEFAULTS['yaxis']['zeroline'],
+        zerolinewidth=STYLE_DEFAULTS['yaxis']['zerolinewidth'],
+        zerolinecolor=STYLE_DEFAULTS['yaxis']['zerolinecolor'],
+        showline=STYLE_DEFAULTS['yaxis']['showline'],
+        title=STYLE_DEFAULTS['yaxis']['title'],
         tickfont=STYLE_DEFAULTS['font'],
     )
     

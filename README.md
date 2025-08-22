@@ -10,6 +10,33 @@ A comprehensive Python package providing shared Plotly themes, visualization hel
 - **Formatting Utilities**: Number, percentage, currency, and date formatting helpers
 - **Settings Management**: Environment-based configuration with Pydantic validation
 - **Export Support**: High-quality chart export in multiple formats
+- **Auto-Coloring**: Automatic Bitwise brand colors with intelligent hierarchy
+- **Clean Design**: Horizontal grid lines only (no vertical clutter), no default axis titles
+
+## Design Philosophy
+
+AnalystKit follows a clean, professional design approach:
+
+### **Grid Lines**
+- **X-axis**: No vertical grid lines (clean, uncluttered look)
+- **Y-axis**: Horizontal grid lines only (helps with value reading)
+- **Zero line**: Only on Y-axis for reference
+
+### **Colors**
+- **Automatic**: All charts automatically use Bitwise brand colors
+- **Hierarchy**: Colors follow a logical progression based on data complexity
+- **Consistent**: Same color scheme across all chart types
+- **Override**: Users can still specify custom colors if needed
+
+### **Axis Titles**
+- **No defaults**: Clean look without unnecessary labels
+- **Optional**: Add titles only when explicitly needed
+- **Professional**: Minimalist approach for business presentations
+
+### **Typography**
+- **Brand fonts**: Uses PP Neue Montreal Book and Items Regular
+- **Readable sizes**: Optimized for both screen and print
+- **Consistent**: Same font family across all chart elements
 
 ## Installation
 
@@ -23,7 +50,7 @@ pip install git+https://github.com/carlislejd/analystkit.git
 poetry add git+https://github.com/carlislejd/analystkit.git
 
 # For a specific version/tag
-pip install git+https://github.com/carlislejd/analystkit.git@v0.1.2
+pip install git+https://github.com/carlislejd/analystkit.git@v0.1.3
 ```
 
 ### Optional Dependencies

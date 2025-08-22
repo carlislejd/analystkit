@@ -55,13 +55,30 @@ STYLE_DEFAULTS = {
         'b': 20,
     },
     'axis': {
-        'showgrid': True,
+        'showgrid': False,  # No grid by default
         'gridwidth': 1,
-        'gridcolor': CHART_COLORS['grid_dark'],  # Use darker grid color for visibility
-        'zeroline': True,
+        'gridcolor': CHART_COLORS['grid_dark'],
+        'zeroline': False,  # No zero line by default
         'zerolinewidth': 1,
         'zerolinecolor': CHART_COLORS['grid'],
         'showline': False,  # Remove border lines around plot area
+        'title': None,  # No axis titles by default
+    },
+    'xaxis': {
+        'showgrid': False,  # No x-axis vertical lines
+        'zeroline': False,
+        'showline': False,
+        'title': None,
+    },
+    'yaxis': {
+        'showgrid': True,  # Keep y-axis horizontal lines
+        'gridwidth': 1,
+        'gridcolor': CHART_COLORS['grid_dark'],
+        'zeroline': True,  # Keep y-axis zero line
+        'zerolinewidth': 1,
+        'zerolinecolor': CHART_COLORS['grid'],
+        'showline': False,
+        'title': None,
     },
     'grid': {
         'width': 1,
