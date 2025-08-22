@@ -28,8 +28,8 @@ from .assets import (
     list_available_indices
 )
 
-__version__ = "0.1.0"
-__author__ = "You <you@example.com>"
+__version__ = "0.1.1"
+__author__ = "Josh Carlisle <josh@bitwiseinvestments.com>"
 
 __all__ = [
     # Colors and styling

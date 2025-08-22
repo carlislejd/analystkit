@@ -228,12 +228,12 @@ To use custom fonts, place your `.ttf` or `.otf` files in the `fonts/` directory
 
 ## Dependencies
 
-- Python 3.10+
-- Plotly 5.24.0+
-- Pandas 2.2.0+
+- Python 3.8+
+- Plotly 5.24.0+ (compatible with <6.0.0)
+- Pandas 2.0.0+
 - Pydantic 2.7.0+
 - python-dotenv 1.0.1+
-- kaleido 0.2.1+ (for static export)
+- kaleido 0.2.1+ (compatible with Plotly 5.x)
 
 ## Development
 
@@ -296,6 +296,14 @@ git push origin main
 git tag v1.1.0
 git push origin v1.1.0
 ```
+
+## Compatibility Notes
+
+- **Python**: 3.8+ required
+- **Plotly**: 5.24.0+ (not compatible with 6.x)
+- **Kaleido**: 0.2.1 for chart export (compatible with Plotly 5.x)
+
+For troubleshooting, see the [GitHub issues](https://github.com/carlislejd/analystkit/issues) or check your Poetry environment with `poetry env info`.
 
 ## Contributing
 
