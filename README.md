@@ -17,20 +17,41 @@ A comprehensive Python package providing shared Plotly themes, visualization hel
 
 ```bash
 # Install directly from GitHub
-pip install git+https://github.com/yourcompany/analystkit.git
+pip install git+https://github.com/carlislejd/analystkit.git
 
 # Or with Poetry
-poetry add git+https://github.com/yourcompany/analystkit.git
+poetry add git+https://github.com/carlislejd/analystkit.git
 
 # For a specific version/tag
-pip install git+https://github.com/yourcompany/analystkit.git@v1.0.0
+pip install git+https://github.com/carlislejd/analystkit.git@v0.1.2
 ```
+
+### Optional Dependencies
+
+**Chart Export (Optional):** If you need to export charts to static images (PNG, SVG, PDF), install kaleido manually:
+
+```bash
+# With Poetry (let Poetry choose the best version for your platform)
+poetry add kaleido
+
+# With pip (let pip choose the best version for your platform)
+pip install kaleido
+
+# For specific platforms, you may need to specify a version:
+# pip install kaleido==0.2.1  # For Plotly 5.x compatibility
+# pip install kaleido>=1.0.0  # For Plotly 6.x compatibility
+```
+
+**Note:** Chart export functionality requires kaleido. Without it, you can still create and display charts, but export will raise an ImportError with helpful installation instructions. The package is designed to work with any kaleido version compatible with your Plotly version.
 
 ### Local Development
 
 ```bash
 cd packages/analystkit
 poetry install
+
+# If you need chart export functionality
+poetry add kaleido
 ```
 
 ### Using pip (Local)
@@ -59,18 +80,15 @@ fig = ak.create_bar_chart(
     data=data,
     x='Category',
     y='Value',
-    title='Sample Bar Chart',
     x_label='Categories',
-    y_label='Values',
-    show_source=True,
-    source_text='Source: Sample Data'
+    y_label='Values'
 )
 
 # Display the chart
 fig.show()
 
-# Export the chart
-ak.export_chart(fig, 'sample_chart', format='svg')
+# Optional: Export the chart (requires kaleido)
+# ak.export_chart(fig, 'sample_chart', format='svg')
 ```
 
 ## Core Components
@@ -228,12 +246,22 @@ To use custom fonts, place your `.ttf` or `.otf` files in the `fonts/` directory
 
 ## Dependencies
 
+### Required Dependencies
 - Python 3.8+
-- Plotly 5.24.0+ (compatible with <6.0.0)
+- Plotly 5.24.0+ (compatible with any version including 6.x)
 - Pandas 2.0.0+
 - Pydantic 2.7.0+
 - python-dotenv 1.0.1+
-- kaleido 0.2.1+ (compatible with Plotly 5.x)
+- requests 2.31.0+
+
+### Optional Dependencies
+- **kaleido**: Required only for chart export functionality (PNG, SVG, PDF)
+
+**Note:** The package will install and work without kaleido, but chart export will raise an ImportError with helpful installation instructions. 
+
+**Version Compatibility:**
+- **Plotly 5.x + kaleido 0.2.1+** = Works great
+- **Plotly 6.x + kaleido 1.0+** = Also works great
 
 ## Development
 
@@ -278,7 +306,7 @@ poetry run black --check .
 
 ```bash
 # Update to latest version
-pip install --upgrade git+https://github.com/yourcompany/analystkit.git
+pip install --upgrade git+https://github.com/carlislejd/analystkit.git
 
 # Or with Poetry
 poetry update analystkit
@@ -300,8 +328,14 @@ git push origin v1.1.0
 ## Compatibility Notes
 
 - **Python**: 3.8+ required
-- **Plotly**: 5.24.0+ (not compatible with 6.x)
-- **Kaleido**: 0.2.1 for chart export (compatible with Plotly 5.x)
+- **Plotly**: 5.24.0+ (compatible with any version including 6.x)
+- **Kaleido**: Any version compatible with your Plotly version (optional)
+
+**Cross-Platform Support**: The package now handles ARM64 (Apple Silicon) compatibility by making kaleido optional. Users can install the kaleido version that works best for their platform and Plotly version.
+
+**Version Compatibility Guide:**
+- **Plotly 5.x + kaleido 0.2.1+** = Works great
+- **Plotly 6.x + kaleido 1.0+** = Also works great
 
 For troubleshooting, see the [GitHub issues](https://github.com/carlislejd/analystkit/issues) or check your Poetry environment with `poetry env info`.
 

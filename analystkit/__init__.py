@@ -3,6 +3,8 @@ AnalystKit - Shared Plotly theme, visualization helpers, and settings for analyt
 
 A comprehensive package providing consistent styling, color palettes, and chart utilities
 for creating professional visualizations with Plotly.
+
+Note: Chart export functionality requires kaleido (install with: poetry add --group export kaleido)
 """
 
 from .colors import (
@@ -28,7 +30,7 @@ from .assets import (
     list_available_indices
 )
 
-__version__ = "0.1.1"
+__version__ = "0.1.2"
 __author__ = "Josh Carlisle <josh@bitwiseinvestments.com>"
 
 __all__ = [

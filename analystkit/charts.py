@@ -362,7 +362,21 @@ def export_chart(
         width: Export width (uses chart width if None)
         height: Export height (uses chart height if None)
         scale: Scale factor for raster formats
+    
+    Raises:
+        ImportError: If kaleido is not installed (required for export)
+        ValueError: If export format is not supported
     """
+    # Check if kaleido is available
+    try:
+        import kaleido
+    except ImportError:
+        raise ImportError(
+            "Chart export requires kaleido. Install with: "
+            "poetry add kaleido "
+            "or pip install kaleido"
+        )
+    
     if not filename.endswith(f".{format}"):
         filename = f"{filename}.{format}"
     
