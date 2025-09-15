@@ -83,6 +83,15 @@ STYLE_DEFAULTS = {
     'grid': {
         'width': 1,
     },
+    'legend': {
+        'borderwidth': 0,  # Remove legend border
+        'bgcolor': 'rgba(0,0,0,0)',  # Transparent background
+        'font': {
+            'family': FONT_FAMILIES['primary'],
+            'size': FONT_SIZES['legend'],
+            'color': CHART_COLORS['text'],
+        },
+    },
 }
 
 # Size presets

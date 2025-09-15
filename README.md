@@ -11,7 +11,8 @@ A comprehensive Python package providing shared Plotly themes, visualization hel
 - **Settings Management**: Environment-based configuration with Pydantic validation
 - **Export Support**: High-quality chart export in multiple formats
 - **Auto-Coloring**: Automatic Bitwise brand colors with intelligent hierarchy
-- **Clean Design**: Horizontal grid lines only (no vertical clutter), no default axis titles
+- **Clean Design**: Horizontal grid lines only (no vertical clutter), no default axis titles, no legend borders
+- **Asset Data**: Dummy-proof crypto and index data fetching with auto-capitalization
 
 ## Design Philosophy
 
@@ -38,6 +39,40 @@ AnalystKit follows a clean, professional design approach:
 - **Readable sizes**: Optimized for both screen and print
 - **Consistent**: Same font family across all chart elements
 
+### **Legend**
+- **No borders**: Clean, borderless legend design
+- **Transparent background**: Seamless integration with chart background
+- **Consistent fonts**: Matches chart typography standards
+
+### **Asset Data (`assets.py`)**
+
+Dummy-proof data fetching for crypto and indices:
+
+```python
+from analystkit import fetch_crypto_history, get_crypto_dataframe
+
+# Auto-capitalization - works with any case input
+data = fetch_crypto_history('btc')      # 'btc' → 'BTC'
+data = fetch_crypto_history('ETH')      # 'ETH' → 'ETH'
+data = fetch_crypto_history('sol')      # 'sol' → 'SOL'
+
+# Get clean DataFrames for analysis
+df = get_crypto_dataframe('btc')        # Returns pandas DataFrame
+print(f"Fetched {len(df)} data points for {df['symbol'].iloc[0]}")
+
+# List available assets
+from analystkit import list_available_cryptos, list_available_indices
+cryptos = list_available_cryptos()      # ['BTC', 'ETH', 'SOL', ...]
+indices = list_available_indices()      # ['DEFI', 'BIT10', 'BITW', ...]
+```
+
+**Features:**
+- **Auto-capitalization**: Symbols automatically converted to uppercase
+- **No date limits**: Fetches all available historical data
+- **Rich metadata**: Includes statistics, date ranges, and price info
+- **Error handling**: Graceful fallbacks with helpful error messages
+- **IDE support**: Full type hints and detailed docstrings for hover help
+
 ## Installation
 
 ### From GitHub (Recommended for Team Use)
@@ -50,7 +85,7 @@ pip install git+https://github.com/carlislejd/analystkit.git
 poetry add git+https://github.com/carlislejd/analystkit.git
 
 # For a specific version/tag
-pip install git+https://github.com/carlislejd/analystkit.git@v0.1.3
+pip install git+https://github.com/carlislejd/analystkit.git@v0.1.4
 ```
 
 ### Optional Dependencies

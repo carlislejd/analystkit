@@ -21,16 +21,7 @@ def register_theme():
             **STYLE_DEFAULTS['axis'],
             'tickfont': STYLE_DEFAULTS['font'],
         },
-        'legend': {
-            'font': {
-                'family': STYLE_DEFAULTS['font']['family'],
-                'size': 14,
-                'color': CHART_COLORS['text'],
-            },
-            'bgcolor': CHART_COLORS['background'],
-            'bordercolor': CHART_COLORS['grid'],
-            'borderwidth': 1,
-        },
+        'legend': STYLE_DEFAULTS['legend'],
     }
     
     # Register the theme (simplified for newer Plotly versions)
@@ -83,18 +74,9 @@ def apply_theme(fig, size_preset='full'):
         tickfont=STYLE_DEFAULTS['font'],
     )
     
-    # Apply legend styling
+    # Apply legend styling (no border, clean look)
     fig.update_layout(
-        legend=dict(
-            font=dict(
-                family=STYLE_DEFAULTS['font']['family'],
-                size=14,
-                color=CHART_COLORS['text'],
-            ),
-            bgcolor=CHART_COLORS['background'],
-            bordercolor=CHART_COLORS['grid'],
-            borderwidth=1,
-        )
+        legend=STYLE_DEFAULTS['legend']
     )
     
     return fig
