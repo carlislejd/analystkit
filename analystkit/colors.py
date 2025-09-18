@@ -41,6 +41,15 @@ FONT_SIZES = {
     'annotation': 12,
 }
 
+# Opacity settings
+OPACITY = {
+    'bars': 0.9,
+    'lines': 0.8,
+    'markers': 0.7,
+    'areas': 0.6,
+    'background': 1.0,
+}
+
 # Style defaults
 STYLE_DEFAULTS = {
     'font': {
@@ -94,6 +103,28 @@ STYLE_DEFAULTS = {
     },
 }
 
+# Margin presets
+MARGIN_PRESETS = {
+    'minimal': {
+        'l': 40,
+        'r': 40,
+        't': 40,
+        'b': 40,
+    },
+    'standard': {
+        'l': 60,
+        'r': 60,
+        't': 60,
+        'b': 60,
+    },
+    'wide': {
+        'l': 80,
+        'r': 80,
+        't': 80,
+        'b': 80,
+    },
+}
+
 # Size presets
 SIZE_PRESETS = {
     'full': {
@@ -103,6 +134,18 @@ SIZE_PRESETS = {
     'half': {
         'width': 600,
         'height': 400,
+    },
+    '18:9': {
+        'width': 18 * 96,  # 1728px
+        'height': 9 * 96,  # 864px
+    },
+    '3:1': {
+        'width': 18 * 96,  # 1728px
+        'height': 6 * 96,  # 576px
+    },
+    '1:1': {
+        'width': 12 * 96,  # 1152px
+        'height': 12 * 96,  # 1152px
     },
 }
 

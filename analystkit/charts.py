@@ -6,7 +6,7 @@ import pandas as pd
 import numpy as np
 from typing import List, Dict, Any, Optional, Union
 from .plotly_theme import apply_theme, get_color_palette
-from .colors import SIZE_PRESETS, COLOR_HIERARCHY
+from .colors import SIZE_PRESETS, COLOR_HIERARCHY, OPACITY, MARGIN_PRESETS
 
 def create_bar_chart(
     data: Union[pd.DataFrame, List, Dict],
@@ -17,6 +17,7 @@ def create_bar_chart(
     color_column: Optional[str] = None,
     orientation: str = "v",
     size_preset: str = "full",
+    margin_preset: str = "minimal",
     **kwargs
 ) -> go.Figure:
     """Create a styled bar chart.
@@ -30,6 +31,7 @@ def create_bar_chart(
         color_column: Column to use for color grouping
         orientation: Chart orientation ('v' for vertical, 'h' for horizontal)
         size_preset: Size preset to use
+        margin_preset: Margin preset to use ('minimal', 'standard', 'wide')
         **kwargs: Additional arguments passed to go.Bar
     
     Returns:
@@ -432,7 +434,7 @@ def save_chart(
         fig: Plotly figure to save
         title: Chart title (used for filename)
         output_dir: Directory to save files (default: "design")
-        aspect_ratio: Aspect ratio for exports ("18:9" or "1:1")
+        aspect_ratio: Aspect ratio for exports ("18:9", "3:1", or "1:1")
         include_svg: Whether to export SVG format (default: True)
         include_png: Whether to export PNG format (default: True)
         include_1x1: Whether to also export 1:1 ratio versions (default: False)
@@ -464,6 +466,7 @@ def save_chart(
     # Define aspect ratios and their dimensions (in pixels at 96 DPI)
     aspect_ratios = {
         "18:9": {"width": 18 * 96, "height": 9 * 96},  # 1728x864
+        "3:1": {"width": 18 * 96, "height": 6 * 96},   # 1728x576
         "1:1": {"width": 12 * 96, "height": 12 * 96},  # 1152x1152
     }
     

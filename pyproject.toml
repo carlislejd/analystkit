@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "analystkit"
-version = "0.1.6"
+version = "0.1.7"
 description = "Shared Plotly theme, viz helpers, and settings for analytics projects. Compatible with Python 3.8+ and any Plotly version. Chart export requires kaleido (optional)."
 authors = ["Josh Carlisle <josh@bitwiseinvestments.com>"]
 readme = "README.md"
@@ -8,7 +8,7 @@ packages = [{ include = "analystkit" }]
 
 [tool.poetry.dependencies]
 python = "^3.8"
-plotly = "^5.24.0"
+plotly = ">=6.1.1"
 pandas = "^2.0.0"
 requests = "^2.31.0"
 python-dotenv = "^1.0.1"
@@ -22,6 +22,7 @@ pydantic-settings = "^2.0.0"
 # Compatibility guide:
 # - Plotly 5.x + kaleido 0.2.1+ = Works great
 # - Plotly 6.x + kaleido 1.0+ = Also works great
+kaleido = "^1.1.0"
 
 [build-system]
 requires = ["poetry-core"]

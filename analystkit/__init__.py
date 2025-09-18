@@ -15,7 +15,9 @@ from .colors import (
     FONT_SIZES,
     STYLE_DEFAULTS,
     SIZE_PRESETS,
-    EXPORT_CONFIG
+    EXPORT_CONFIG,
+    OPACITY,
+    MARGIN_PRESETS
 )
 from .plotly_theme import register_theme, apply_theme, get_color_palette
 from .formats import format_number, format_percentage, format_currency, format_date
@@ -30,7 +32,7 @@ from .assets import (
     list_available_indices
 )
 
-__version__ = "0.1.6"
+__version__ = "0.1.7"
 __author__ = "Josh Carlisle <josh@bitwiseinvestments.com>"
 
 __all__ = [
@@ -43,6 +45,8 @@ __all__ = [
     "STYLE_DEFAULTS",
     "SIZE_PRESETS",
     "EXPORT_CONFIG",
+    "OPACITY",
+    "MARGIN_PRESETS",
     
     # Theme management
     "register_theme",

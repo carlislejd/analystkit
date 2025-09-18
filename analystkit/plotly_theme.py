@@ -2,7 +2,7 @@
 
 import plotly.graph_objects as go
 import plotly.express as px
-from .colors import STYLE_DEFAULTS, CHART_COLORS, SIZE_PRESETS
+from .colors import STYLE_DEFAULTS, CHART_COLORS, SIZE_PRESETS, MARGIN_PRESETS
 
 def register_theme():
     """Register the custom theme with Plotly."""
@@ -31,25 +31,27 @@ def register_theme():
     
     return custom_layout
 
-def apply_theme(fig, size_preset='full'):
+def apply_theme(fig, size_preset='full', margin_preset='minimal'):
     """Apply the custom theme to a Plotly figure.
     
     Args:
         fig: Plotly figure object
-        size_preset: Size preset to use ('full' or 'half')
+        size_preset: Size preset to use ('full', 'half', '18:9', '3:1', '1:1')
+        margin_preset: Margin preset to use ('minimal', 'standard', 'wide')
     
     Returns:
         Updated figure object
     """
     # Apply size preset
     size = SIZE_PRESETS.get(size_preset, SIZE_PRESETS['full'])
+    margin = MARGIN_PRESETS.get(margin_preset, MARGIN_PRESETS['minimal'])
     fig.update_layout(
         width=size['width'],
         height=size['height'],
         plot_bgcolor=CHART_COLORS['background'],
         paper_bgcolor=CHART_COLORS['background'],
         font=STYLE_DEFAULTS['font'],
-        margin=STYLE_DEFAULTS['margin'],
+        margin=margin,
     )
     
     # Apply specific x-axis styling (no grid, no titles)
