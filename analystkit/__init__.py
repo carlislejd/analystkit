@@ -19,7 +19,7 @@ from .colors import (
 )
 from .plotly_theme import register_theme, apply_theme, get_color_palette
 from .formats import format_number, format_percentage, format_currency, format_date
-from .charts import create_bar_chart, create_line_chart, create_scatter_chart, export_chart
+from .charts import create_bar_chart, create_line_chart, create_scatter_chart, export_chart, save_chart
 from .settings import Settings, load_settings, create_env_template
 from .assets import (
     fetch_crypto_history,
@@ -30,7 +30,7 @@ from .assets import (
     list_available_indices
 )
 
-__version__ = "0.1.5"
+__version__ = "0.1.6"
 __author__ = "Josh Carlisle <josh@bitwiseinvestments.com>"
 
 __all__ = [
@@ -60,6 +60,7 @@ __all__ = [
     "create_line_chart",
     "create_scatter_chart",
     "export_chart",
+    "save_chart",
     
     # Settings
     "Settings",

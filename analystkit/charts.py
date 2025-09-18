@@ -411,3 +411,110 @@ def export_chart(
         height=export_height,
         scale=scale
     )
+
+def save_chart(
+    fig: go.Figure,
+    title: str,
+    output_dir: str = "design",
+    aspect_ratio: str = "18:9",
+    include_svg: bool = True,
+    include_png: bool = True,
+    include_1x1: bool = False,
+    png_scale: int = 4
+) -> Dict[str, str]:
+    """Save a chart in multiple formats with consistent aspect ratios.
+    
+    This function automatically exports charts in SVG and PNG formats with
+    predefined aspect ratios, making it easy to maintain consistent sizing
+    across all visualizations.
+    
+    Args:
+        fig: Plotly figure to save
+        title: Chart title (used for filename)
+        output_dir: Directory to save files (default: "design")
+        aspect_ratio: Aspect ratio for exports ("18:9" or "1:1")
+        include_svg: Whether to export SVG format (default: True)
+        include_png: Whether to export PNG format (default: True)
+        include_1x1: Whether to also export 1:1 ratio versions (default: False)
+        png_scale: Scale factor for PNG exports (default: 4 for high quality)
+    
+    Returns:
+        Dict[str, str]: Dictionary mapping format names to file paths
+        
+    Raises:
+        ImportError: If kaleido is not installed (required for PNG export)
+        ValueError: If aspect_ratio is not supported
+        OSError: If output directory cannot be created
+    
+    Example:
+        >>> fig = ak.create_bar_chart(data, x='x', y='y')
+        >>> files = ak.save_chart(fig, "My Chart", aspect_ratio="18:9")
+        >>> print(f"Saved: {files}")
+        # Output: {'svg': 'design/My Chart.svg', 'png': 'design/My Chart.png'}
+    """
+    import os
+    
+    # Create output directory if it doesn't exist
+    os.makedirs(output_dir, exist_ok=True)
+    
+    # Clean title for filename
+    clean_title = "".join(c for c in title if c.isalnum() or c in (' ', '-', '_')).rstrip()
+    clean_title = clean_title.replace(' ', '_')
+    
+    # Define aspect ratios and their dimensions (in pixels at 96 DPI)
+    aspect_ratios = {
+        "18:9": {"width": 18 * 96, "height": 9 * 96},  # 1728x864
+        "1:1": {"width": 12 * 96, "height": 12 * 96},  # 1152x1152
+    }
+    
+    if aspect_ratio not in aspect_ratios:
+        raise ValueError(f"Unsupported aspect ratio: {aspect_ratio}. Supported: {list(aspect_ratios.keys())}")
+    
+    saved_files = {}
+    dimensions = aspect_ratios[aspect_ratio]
+    
+    # Export SVG
+    if include_svg:
+        svg_path = os.path.join(output_dir, f"{clean_title}.svg")
+        try:
+            export_chart(fig, svg_path, format="svg", 
+                        width=dimensions["width"], height=dimensions["height"])
+            saved_files["svg"] = svg_path
+        except ImportError:
+            print("Warning: SVG export failed - kaleido not installed")
+    
+    # Export PNG
+    if include_png:
+        png_path = os.path.join(output_dir, f"{clean_title}.png")
+        try:
+            export_chart(fig, png_path, format="png", 
+                        width=dimensions["width"], height=dimensions["height"], 
+                        scale=png_scale)
+            saved_files["png"] = png_path
+        except ImportError:
+            print("Warning: PNG export failed - kaleido not installed")
+    
+    # Export 1:1 ratio versions if requested
+    if include_1x1:
+        square_dimensions = aspect_ratios["1:1"]
+        
+        if include_svg:
+            svg_1x1_path = os.path.join(output_dir, f"{clean_title}_1x1.svg")
+            try:
+                export_chart(fig, svg_1x1_path, format="svg",
+                            width=square_dimensions["width"], height=square_dimensions["height"])
+                saved_files["svg_1x1"] = svg_1x1_path
+            except ImportError:
+                print("Warning: 1:1 SVG export failed - kaleido not installed")
+        
+        if include_png:
+            png_1x1_path = os.path.join(output_dir, f"{clean_title}_1x1.png")
+            try:
+                export_chart(fig, png_1x1_path, format="png",
+                            width=square_dimensions["width"], height=square_dimensions["height"],
+                            scale=png_scale)
+                saved_files["png_1x1"] = png_1x1_path
+            except ImportError:
+                print("Warning: 1:1 PNG export failed - kaleido not installed")
+    
+    return saved_files

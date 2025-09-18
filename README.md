@@ -13,6 +13,7 @@ A comprehensive Python package providing shared Plotly themes, visualization hel
 - **Auto-Coloring**: Automatic Bitwise brand colors with intelligent hierarchy
 - **Clean Design**: Horizontal grid lines only (no vertical clutter), no default axis titles, no legend borders
 - **Asset Data**: Dummy-proof crypto and index data fetching with auto-capitalization
+- **Smart Export**: One-line chart saving with consistent aspect ratios (18:9, 1:1)
 
 ## Design Philosophy
 
@@ -43,6 +44,33 @@ AnalystKit follows a clean, professional design approach:
 - **No borders**: Clean, borderless legend design
 - **Transparent background**: Seamless integration with chart background
 - **Consistent fonts**: Matches chart typography standards
+
+### **Smart Export (`save_chart`)**
+
+One-line chart saving with consistent aspect ratios:
+
+```python
+from analystkit import create_bar_chart, save_chart
+
+# Create your chart
+fig = create_bar_chart(data, x='x', y='y')
+
+# Save in multiple formats with 18:9 aspect ratio
+files = save_chart(fig, "My Analysis", aspect_ratio="18:9")
+# Output: {'svg': 'design/My_Analysis.svg', 'png': 'design/My_Analysis.png'}
+
+# Save with both 18:9 and 1:1 ratios
+files = save_chart(fig, "My Analysis", aspect_ratio="18:9", include_1x1=True)
+# Output: {'svg': 'design/My_Analysis.svg', 'png': 'design/My_Analysis.png', 
+#          'svg_1x1': 'design/My_Analysis_1x1.svg', 'png_1x1': 'design/My_Analysis_1x1.png'}
+```
+
+**Features:**
+- **Consistent sizing**: Predefined aspect ratios (18:9, 1:1)
+- **Multiple formats**: SVG and PNG in one call
+- **Auto-directory**: Creates output directory if needed
+- **Clean filenames**: Sanitizes titles for file system compatibility
+- **High quality**: PNG exports with configurable scale factor
 
 ### **Asset Data (`assets.py`)**
 

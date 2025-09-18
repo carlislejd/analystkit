@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "analystkit"
-version = "0.1.5"
+version = "0.1.6"
 description = "Shared Plotly theme, viz helpers, and settings for analytics projects. Compatible with Python 3.8+ and any Plotly version. Chart export requires kaleido (optional)."
 authors = ["Josh Carlisle <josh@bitwiseinvestments.com>"]
 readme = "README.md"
