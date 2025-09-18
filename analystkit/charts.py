@@ -185,7 +185,10 @@ def create_line_chart(
         if color_column:
             unique_values = data[color_column].nunique() if hasattr(data, 'nunique') else len(set(data[color_column]))
             colors = get_color_palette(unique_values)
-            fig.update_traces(marker_color=colors, line_color=colors)
+            # Apply colors individually to each trace
+            for i, trace in enumerate(fig.data):
+                if i < len(colors):
+                    trace.update(marker_color=colors[i], line_color=colors[i])
         else:
             # For single series, use primary Bitwise color
             fig.update_traces(marker_color=COLOR_HIERARCHY[1][0], line_color=COLOR_HIERARCHY[1][0])
