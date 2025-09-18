@@ -33,12 +33,12 @@ FONT_FAMILIES = {
     'title': 'Items Regular',
 }
 
-# Font sizes
+# Font sizes (increased by 20%)
 FONT_SIZES = {
-    'title': 16,
-    'axis': 16,
-    'legend': 16,
-    'annotation': 12,
+    'title': 19,
+    'axis': 19,
+    'legend': 19,
+    'annotation': 14,
 }
 
 # Opacity settings
@@ -78,6 +78,7 @@ STYLE_DEFAULTS = {
         'zeroline': False,
         'showline': False,
         'title': None,
+        'tickangle': 0,  # Default to horizontal labels
     },
     'yaxis': {
         'showgrid': True,  # Keep y-axis horizontal lines
@@ -95,6 +96,12 @@ STYLE_DEFAULTS = {
     'legend': {
         'borderwidth': 0,  # Remove legend border
         'bgcolor': 'rgba(0,0,0,0)',  # Transparent background
+        'orientation': "h",  # Horizontal legend
+        'yanchor': "bottom",  # Anchor to bottom
+        'y': 1.02,  # Position above chart
+        'xanchor': "right",  # Anchor to right
+        'x': 1,  # Position at right edge
+        'title': None,  # Hide legend title
         'font': {
             'family': FONT_FAMILIES['primary'],
             'size': FONT_SIZES['legend'],

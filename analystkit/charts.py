@@ -98,6 +98,28 @@ def create_bar_chart(
             # For single series, use primary Bitwise color
             fig.update_traces(marker_color=COLOR_HIERARCHY[1][0])
     
+    # Legend symbol hack: Add invisible scatter traces for legend symbols
+    if len(fig.data) > 1:  # Only for multiple series
+        for i, trace in enumerate(fig.data):
+            if trace.name:  # If trace has a name
+                # Add invisible scatter trace for legend symbol
+                fig.add_trace(go.Scatter(
+                    x=[None],
+                    y=[None],
+                    mode='markers',
+                    marker=dict(
+                        size=12,
+                        color=trace.marker.color if hasattr(trace, 'marker') and trace.marker.color else '#66b77d',
+                        symbol='circle'
+                    ),
+                    showlegend=True,
+                    name=trace.name,
+                    legendgroup=trace.name,
+                    hoverinfo='skip'
+                ))
+                # Hide the original trace from legend
+                trace.showlegend = False
+    
     # Only update labels if explicitly provided (no defaults)
     if x_label:
         fig.update_xaxes(title_text=x_label)
@@ -190,8 +212,37 @@ def create_line_chart(
                 if i < len(colors):
                     trace.update(marker_color=colors[i], line_color=colors[i])
         else:
-            # For single series, use primary Bitwise color
-            fig.update_traces(marker_color=COLOR_HIERARCHY[1][0], line_color=COLOR_HIERARCHY[1][0])
+            # For multiple series without color_column, use color hierarchy
+            if len(fig.data) > 1:
+                colors = get_color_palette(len(fig.data))
+                for i, trace in enumerate(fig.data):
+                    if i < len(colors):
+                        trace.update(marker_color=colors[i], line_color=colors[i])
+            else:
+                # For single series, use primary Bitwise color
+                fig.update_traces(marker_color=COLOR_HIERARCHY[1][0], line_color=COLOR_HIERARCHY[1][0])
+    
+    # Legend symbol hack: Add invisible scatter traces for legend symbols
+    if len(fig.data) > 1:  # Only for multiple series
+        for i, trace in enumerate(fig.data):
+            if trace.name:  # If trace has a name
+                # Add invisible scatter trace for legend symbol
+                fig.add_trace(go.Scatter(
+                    x=[None],
+                    y=[None],
+                    mode='markers',
+                    marker=dict(
+                        size=12,
+                        color=trace.line.color if hasattr(trace, 'line') and trace.line.color else trace.marker.color,
+                        symbol='circle'
+                    ),
+                    showlegend=True,
+                    name=trace.name,
+                    legendgroup=trace.name,
+                    hoverinfo='skip'
+                ))
+                # Hide the original trace from legend
+                trace.showlegend = False
     
     # Only update labels if explicitly provided (no defaults)
     if x_label:
@@ -425,7 +476,7 @@ def save_chart(
     include_svg: bool = True,
     include_png: bool = True,
     include_1x1: bool = False,
-    png_scale: int = 4
+    png_scale: int = 2
 ) -> Dict[str, str]:
     """Save a chart in multiple formats with consistent aspect ratios.
     
@@ -441,7 +492,7 @@ def save_chart(
         include_svg: Whether to export SVG format (default: True)
         include_png: Whether to export PNG format (default: True)
         include_1x1: Whether to also export 1:1 ratio versions (default: False)
-        png_scale: Scale factor for PNG exports (default: 4 for high quality)
+        png_scale: Scale factor for PNG exports (default: 2 for optimal quality)
     
     Returns:
         Dict[str, str]: Dictionary mapping format names to file paths
