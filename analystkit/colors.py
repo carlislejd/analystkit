@@ -23,22 +23,22 @@ COLOR_HIERARCHY = {
 CHART_COLORS = {
     'background': '#ffffff',
     'grid': '#e6e6e6',
-    'grid_dark': '#cccccc',  # Darker grid color for visible tick marks and grid lines
-    'text': '#333333',
+    'grid_dark': '#C1C8CD',  # Light gray for axis lines and tick marks
+    'text': '#1B252A',  # Dark gray for all text
 }
 
 # Font families
 FONT_FAMILIES = {
-    'primary': 'PP Neue Montreal Book',
-    'title': 'Items Regular',
+    'primary': 'PPNeueMontreal-Regular',
+    'title': 'Items-Regular',
 }
 
-# Font sizes (increased by 20%)
+# Font sizes - 6 pt / 25 px for all text
 FONT_SIZES = {
-    'title': 19,
-    'axis': 19,
-    'legend': 19,
-    'annotation': 14,
+    'title': 25,
+    'axis': 25,
+    'legend': 25,
+    'annotation': 25,
 }
 
 # Opacity settings
@@ -65,13 +65,16 @@ STYLE_DEFAULTS = {
     },
     'axis': {
         'showgrid': False,  # No grid by default
-        'gridwidth': 1,
+        'gridwidth': 1,  # 0.25 pt / 1 px
         'gridcolor': CHART_COLORS['grid_dark'],
         'zeroline': False,  # No zero line by default
-        'zerolinewidth': 1,
-        'zerolinecolor': CHART_COLORS['grid'],
+        'zerolinewidth': 1,  # 0.25 pt / 1 px
+        'zerolinecolor': CHART_COLORS['grid_dark'],
         'showline': False,  # Remove border lines around plot area
         'title': None,  # No axis titles by default
+        'ticklen': 19,  # 0.0625 in / 19 px tick mark height
+        'tickwidth': 1,  # 0.25 pt / 1 px tick mark width
+        'tickcolor': CHART_COLORS['grid_dark'],
     },
     'xaxis': {
         'showgrid': False,  # No x-axis vertical lines
@@ -79,16 +82,22 @@ STYLE_DEFAULTS = {
         'showline': False,
         'title': None,
         'tickangle': 0,  # Default to horizontal labels
+        'ticklen': 19,  # 0.0625 in / 19 px tick mark height
+        'tickwidth': 1,  # 0.25 pt / 1 px tick mark width
+        'tickcolor': CHART_COLORS['grid_dark'],
     },
     'yaxis': {
         'showgrid': True,  # Keep y-axis horizontal lines
-        'gridwidth': 1,
+        'gridwidth': 1,  # 0.25 pt / 1 px
         'gridcolor': CHART_COLORS['grid_dark'],
         'zeroline': True,  # Keep y-axis zero line
-        'zerolinewidth': 1,
-        'zerolinecolor': CHART_COLORS['grid'],
+        'zerolinewidth': 1,  # 0.25 pt / 1 px
+        'zerolinecolor': CHART_COLORS['grid_dark'],
         'showline': False,
         'title': None,
+        'ticklen': 19,  # 0.0625 in / 19 px tick mark height
+        'tickwidth': 1,  # 0.25 pt / 1 px tick mark width
+        'tickcolor': CHART_COLORS['grid_dark'],
     },
     'grid': {
         'width': 1,
