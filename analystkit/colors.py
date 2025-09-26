@@ -2,22 +2,32 @@
 
 # Color palettes
 BITWISE_COLORS = [
-    '#66b77d',  # Green
-    '#b1d6b7',  # Light green
-    '#2c6271',  # Dark turquoise
-    '#719eab',  # Light turquoise
-    '#45454b',  # Dark grey
-    '#838287',  # Light grey
+    '#45b979',  # Green
+    '#a7d8b5',  # Light green
+    '#006472',  # Dark teal
+    '#62a0ad',  # Light teal
+    '#6c6b71',  # Dark grey
+    '#b7b6b9',  # Light grey
+    '#4f2984',  # Purple
+    '#927fb5',  # Light purple
+    '#00b6c9',  # Turquoise
+    '#91d6e0',  # Light turquoise
+    '#f05b72',  # Red
 ]
 
 # Color hierarchy for different numbers of items
 COLOR_HIERARCHY = {
-    1: ['#66b77d'],  # Green
-    2: ['#66b77d', '#45454b'],  # Green, Dark grey
-    3: ['#66b77d', '#2c6271', '#45454b'],  # Green, Dark turquoise, Dark grey
-    4: ['#66b77d', '#b1d6b7', '#2c6271', '#45454b'],  # Green, Light green, Dark turquoise, Dark grey
-    5: ['#66b77d', '#b1d6b7', '#2c6271', '#719eab', '#45454b'],  # Green, Light green, Dark turquoise, Light turquoise, Dark grey
-    6: ['#66b77d', '#b1d6b7', '#2c6271', '#719eab', '#45454b', '#838287'],  # Green, Light green, Dark turquoise, Light turquoise, Dark grey, Light grey
+    1: ['#45b979'],  # Green
+    2: ['#45b979', '#6c6b71'],  # Green, Dark grey
+    3: ['#45b979', '#006472', '#6c6b71'],  # Green, Dark teal, Dark grey
+    4: ['#45b979', '#a7d8b5', '#006472', '#6c6b71'],  # Green, Light green, Dark teal, Dark grey
+    5: ['#45b979', '#a7d8b5', '#006472', '#62a0ad', '#6c6b71'],  # Green, Light green, Dark teal, Light teal, Dark grey
+    6: ['#45b979', '#a7d8b5', '#006472', '#62a0ad', '#6c6b71', '#b7b6b9'],  # Green, Light green, Dark teal, Light teal, Dark grey, Light grey
+    7: ['#45b979', '#a7d8b5', '#006472', '#62a0ad', '#6c6b71', '#b7b6b9', '#4f2984'],  # Green, Light green, Dark teal, Light teal, Dark grey, Light grey, Purple
+    8: ['#45b979', '#a7d8b5', '#006472', '#62a0ad', '#6c6b71', '#b7b6b9', '#4f2984', '#927fb5'],  # Green, Light green, Dark teal, Light teal, Dark grey, Light grey, Purple, Light purple
+    9: ['#45b979', '#a7d8b5', '#006472', '#62a0ad', '#6c6b71', '#b7b6b9', '#4f2984', '#927fb5', '#00b6c9'],  # Green, Light green, Dark teal, Light teal, Dark grey, Light grey, Purple, Light purple, Turquoise
+    10: ['#45b979', '#a7d8b5', '#006472', '#62a0ad', '#6c6b71', '#b7b6b9', '#4f2984', '#927fb5', '#00b6c9', '#91d6e0'],  # Green, Light green, Dark teal, Light teal, Dark grey, Light grey, Purple, Light purple, Turquoise, Light turquoise
+    11: ['#45b979', '#a7d8b5', '#006472', '#62a0ad', '#6c6b71', '#b7b6b9', '#4f2984', '#927fb5', '#00b6c9', '#91d6e0', '#f05b72'],  # Green, Light green, Dark teal, Light teal, Dark grey, Light grey, Purple, Light purple, Turquoise, Light turquoise, Red
 }
 
 CHART_COLORS = {
