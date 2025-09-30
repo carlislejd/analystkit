@@ -173,6 +173,30 @@ SIZE_PRESETS = {
         'width': 12 * 96,  # 1152px
         'height': 12 * 96,  # 1152px
     },
+    'type_a': {
+        'width': 1275,  # 4.25x3
+        'height': 900,
+    },
+    'type_b': {
+        'width': 1200,  # 4x2.5
+        'height': 750,
+    },
+    'type_c': {
+        'width': 1800,  # 6x3.5
+        'height': 1050,
+    },
+    'type_d': {
+        'width': 1800,  # 6x3.75
+        'height': 1125,
+    },
+    'type_e': {
+        'width': 825,   # 2.75x3.25
+        'height': 975,
+    },
+    'type_f': {
+        'width': 825,   # 2.75x3
+        'height': 900,
+    },
 }
 
 EXPORT_CONFIG = {
