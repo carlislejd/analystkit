@@ -525,6 +525,7 @@ def save_chart(
         "18:9": {"width": 18 * 96, "height": 9 * 96},  # 1728x864
         "3:1": {"width": 18 * 96, "height": 6 * 96},   # 1728x576
         "1:1": {"width": 12 * 96, "height": 12 * 96},  # 1152x1152
+        "type_a": {"width": 1275, "height": 900},      # 4.25x3
     }
     
     if aspect_ratio not in aspect_ratios:
