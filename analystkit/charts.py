@@ -526,6 +526,11 @@ def save_chart(
         "3:1": {"width": 18 * 96, "height": 6 * 96},   # 1728x576
         "1:1": {"width": 12 * 96, "height": 12 * 96},  # 1152x1152
         "type_a": {"width": 1275, "height": 900},      # 4.25x3
+        "type_b": {"width": 1200, "height": 750},      # 4x2.5
+        "type_c": {"width": 1800, "height": 1050},     # 6x3.5
+        "type_d": {"width": 1800, "height": 1125},     # 6x3.75
+        "type_e": {"width": 825, "height": 975},       # 2.75x3.25
+        "type_f": {"width": 825, "height": 900},       # 2.75x3
     }
     
     if aspect_ratio not in aspect_ratios:
