@@ -50,20 +50,23 @@ def apply_theme(fig, size_preset='full', margin_preset='minimal'):
         height=size['height'],
         plot_bgcolor=CHART_COLORS['background'],
         paper_bgcolor=CHART_COLORS['background'],
-        font=STYLE_DEFAULTS['font'],
+        font=STYLE_DEFAULTS['font'],  # PPNeueMontreal-Regular for all text (default)
+        title_font=STYLE_DEFAULTS['title_font'],  # Items-Regular for chart titles only
         margin=margin,
     )
     
     # Apply specific x-axis styling (no grid, no titles)
+    # All fonts use PPNeueMontreal-Regular (via STYLE_DEFAULTS['font'])
     fig.update_xaxes(
         showgrid=STYLE_DEFAULTS['xaxis']['showgrid'],
         zeroline=STYLE_DEFAULTS['xaxis']['zeroline'],
         showline=STYLE_DEFAULTS['xaxis']['showline'],
-        title=STYLE_DEFAULTS['xaxis']['title'],
-        tickfont=STYLE_DEFAULTS['font'],
+        title=None,  # Explicitly hide x-axis title by default
+        tickfont=STYLE_DEFAULTS['font'],  # PPNeueMontreal-Regular
     )
     
     # Apply specific y-axis styling (horizontal grid lines, no titles)
+    # All fonts use PPNeueMontreal-Regular (via STYLE_DEFAULTS['font'])
     fig.update_yaxes(
         showgrid=STYLE_DEFAULTS['yaxis']['showgrid'],
         gridwidth=STYLE_DEFAULTS['yaxis']['gridwidth'],
@@ -72,11 +75,12 @@ def apply_theme(fig, size_preset='full', margin_preset='minimal'):
         zerolinewidth=STYLE_DEFAULTS['yaxis']['zerolinewidth'],
         zerolinecolor=STYLE_DEFAULTS['yaxis']['zerolinecolor'],
         showline=STYLE_DEFAULTS['yaxis']['showline'],
-        title=STYLE_DEFAULTS['yaxis']['title'],
-        tickfont=STYLE_DEFAULTS['font'],
+        title=None,  # Explicitly hide y-axis title by default
+        tickfont=STYLE_DEFAULTS['font'],  # PPNeueMontreal-Regular
     )
     
     # Apply legend styling (no border, clean look)
+    # Legend font uses PPNeueMontreal-Regular (via STYLE_DEFAULTS['legend']['font'])
     fig.update_layout(
         legend=STYLE_DEFAULTS['legend']
     )

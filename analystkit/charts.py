@@ -82,6 +82,10 @@ def create_bar_chart(
             )
         ])
     
+    # Explicitly hide axis titles by default (before applying theme)
+    fig.update_xaxes(title=None)
+    fig.update_yaxes(title=None)
+    
     # Apply styling
     fig = apply_theme(
         fig, 
@@ -198,6 +202,10 @@ def create_line_chart(
                 **kwargs
             )
         ])
+    
+    # Explicitly hide axis titles by default (before applying theme)
+    fig.update_xaxes(title=None)
+    fig.update_yaxes(title=None)
     
     # Apply styling
     fig = apply_theme(
@@ -342,6 +350,10 @@ def create_scatter_chart(
             )
         ])
     
+    # Explicitly hide axis titles by default (before applying theme)
+    fig.update_xaxes(title=None)
+    fig.update_yaxes(title=None)
+    
     # Apply styling
     fig = apply_theme(
         fig, 
@@ -411,6 +423,10 @@ def create_heatmap(
             **kwargs
         )
     ])
+    
+    # Explicitly hide axis titles by default (before applying theme)
+    fig.update_xaxes(title=None)
+    fig.update_yaxes(title=None)
     
     # Apply styling
     fig = apply_theme(

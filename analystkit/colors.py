@@ -63,8 +63,13 @@ OPACITY = {
 # Style defaults
 STYLE_DEFAULTS = {
     'font': {
-        'family': FONT_FAMILIES['primary'],
+        'family': FONT_FAMILIES['primary'],  # PPNeueMontreal-Regular for all text except title
         'size': FONT_SIZES['axis'],
+        'color': CHART_COLORS['text'],
+    },
+    'title_font': {
+        'family': FONT_FAMILIES['title'],  # Items-Regular for chart titles only
+        'size': FONT_SIZES['title'],
         'color': CHART_COLORS['text'],
     },
     'margin': {
@@ -122,7 +127,7 @@ STYLE_DEFAULTS = {
         'x': 1,  # Position at right edge
         'title': None,  # Hide legend title
         'font': {
-            'family': FONT_FAMILIES['primary'],
+            'family': FONT_FAMILIES['primary'],  # PPNeueMontreal-Regular
             'size': FONT_SIZES['legend'],
             'color': CHART_COLORS['text'],
         },
@@ -132,22 +137,22 @@ STYLE_DEFAULTS = {
 # Margin presets
 MARGIN_PRESETS = {
     'minimal': {
+        'l': 20,
+        'r': 20,
+        't': 20,
+        'b': 20,
+    },
+    'standard': {
         'l': 40,
         'r': 40,
         't': 40,
         'b': 40,
     },
-    'standard': {
+    'wide': {
         'l': 60,
         'r': 60,
         't': 60,
         'b': 60,
-    },
-    'wide': {
-        'l': 80,
-        'r': 80,
-        't': 80,
-        'b': 80,
     },
 }
 
