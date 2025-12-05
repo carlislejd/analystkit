@@ -2,6 +2,35 @@
 
 A comprehensive Python package providing shared Plotly themes, visualization helpers, and settings for analytics projects. Built with consistency and reusability in mind.
 
+## 🤖 For AI Assistants
+
+**Quick Reference**: See [`AI_REFERENCE.md`](AI_REFERENCE.md) for a comprehensive guide designed for AI assistants.
+
+**Quick Start Pattern:**
+```python
+import analystkit as ak
+import pandas as pd
+
+# Create chart from DataFrame
+fig = ak.create_bar_chart(data=df, x='category', y='value')
+fig.show()
+
+# Or save with consistent aspect ratio
+ak.save_chart(fig, "Chart Title", aspect_ratio="18:9")
+```
+
+**Key Functions:**
+- `create_bar_chart()`, `create_line_chart()`, `create_scatter_chart()`, `create_heatmap()` - Create styled charts
+- `save_chart()` - Save with consistent aspect ratios (18:9, 1:1, type_a-type_f)
+- `apply_theme()` - Apply styling to any Plotly figure
+- `format_number()`, `format_percentage()`, `format_currency()`, `format_date()` - Formatting utilities
+
+**Design Defaults:**
+- Axis titles hidden by default (use `x_label`/`y_label` to show)
+- Automatic Bitwise brand colors
+- Horizontal grid lines only (y-axis)
+- PPNeueMontreal-Regular font (Items-Regular for titles)
+
 ## Features
 
 - **Consistent Styling**: Pre-defined color palettes and typography for professional visualizations
