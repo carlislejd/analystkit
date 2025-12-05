@@ -31,6 +31,9 @@ from .assets import (
     list_available_cryptos,
     list_available_indices
 )
+# Import fonts module to auto-check font status on import
+from . import fonts
+from .fonts import setup_fonts, install_fonts, check_fonts_installed
 
 __version__ = "0.2.0"
 __author__ = "Josh Carlisle <josh@bitwiseinvestments.com>"
@@ -78,4 +81,9 @@ __all__ = [
     "get_index_dataframe",
     "list_available_cryptos",
     "list_available_indices",
+    
+    # Font management
+    "setup_fonts",
+    "install_fonts",
+    "check_fonts_installed",
 ]
