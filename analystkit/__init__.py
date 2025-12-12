@@ -21,7 +21,7 @@ from .colors import (
 )
 from .plotly_theme import register_theme, apply_theme, get_color_palette
 from .formats import format_number, format_percentage, format_currency, format_date
-from .charts import create_bar_chart, create_line_chart, create_scatter_chart, export_chart, save_chart
+from .charts import create_bar_chart, create_line_chart, create_scatter_chart, export_chart, save_chart, apply_range_tick_marks
 from .settings import Settings, load_settings, create_env_template
 from .assets import (
     fetch_crypto_history,
@@ -68,6 +68,7 @@ __all__ = [
     "create_scatter_chart",
     "export_chart",
     "save_chart",
+    "apply_range_tick_marks",
     
     # Settings
     "Settings",
