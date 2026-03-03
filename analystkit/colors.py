@@ -51,15 +51,6 @@ FONT_SIZES = {
     'annotation': 25,
 }
 
-# Opacity settings
-OPACITY = {
-    'bars': 0.9,
-    'lines': 0.8,
-    'markers': 0.7,
-    'areas': 0.6,
-    'background': 1.0,
-}
-
 # Style defaults
 STYLE_DEFAULTS = {
     'font': {
@@ -204,9 +195,3 @@ SIZE_PRESETS = {
     },
 }
 
-EXPORT_CONFIG = {
-    'format': 'svg',
-    'width': SIZE_PRESETS['full']['width'],
-    'height': SIZE_PRESETS['full']['height'],
-    'scale': 2
-}

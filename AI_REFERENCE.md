@@ -1,40 +1,11 @@
-# AnalystKit - AI Assistant Reference Guide
+# AnalystKit - AI Reference
 
-This document provides a comprehensive reference for AI assistants to quickly understand and use AnalystKit for creating charts and visualizations.
+Everything is accessed via `import analystkit as ak`.
 
-## Quick Start Pattern
+## Chart Creation
 
-```python
-import analystkit as ak
-import pandas as pd
+### `ak.create_bar_chart()`
 
-# 1. Create or load data (pandas DataFrame, dict, or list)
-data = pd.DataFrame({
-    'x': ['A', 'B', 'C'],
-    'y': [10, 20, 30]
-})
-
-# 2. Create chart using helper function
-fig = ak.create_bar_chart(
-    data=data,
-    x='x',
-    y='y',
-    x_label='Category',  # Optional
-    y_label='Value'      # Optional
-)
-
-# 3. Display or save
-fig.show()
-# OR
-ak.save_chart(fig, "My Chart", aspect_ratio="18:9")
-```
-
-## Available Chart Functions
-
-### `create_bar_chart()`
-Creates a styled bar chart with automatic Bitwise colors.
-
-**Signature:**
 ```python
 create_bar_chart(
     data: Union[pd.DataFrame, List, Dict],
@@ -43,35 +14,17 @@ create_bar_chart(
     x_label: str = "",
     y_label: str = "",
     color_column: Optional[str] = None,
-    orientation: str = "v",  # "v" for vertical, "h" for horizontal
+    orientation: str = "v",
     size_preset: str = "full",
     margin_preset: str = "minimal",
     **kwargs
 ) -> go.Figure
 ```
 
-**Data Input Formats:**
-- `pd.DataFrame`: Requires `x` and `y` column names
-- `dict`: Keys become x-axis, values become y-axis
-- `list`: Single list becomes y-axis (x is auto-generated), or list of [x, y] pairs
+Data formats: DataFrame (requires x/y), dict (keys=x, values=y), list (y-values or [x,y] pairs).
 
-**Examples:**
-```python
-# DataFrame
-fig = ak.create_bar_chart(df, x='category', y='value')
+### `ak.create_line_chart()`
 
-# Dict
-fig = ak.create_bar_chart({'A': 10, 'B': 20, 'C': 30})
-
-# List
-fig = ak.create_bar_chart([10, 20, 30])  # y-values only
-fig = ak.create_bar_chart([['A', 10], ['B', 20]])  # [x, y] pairs
-```
-
-### `create_line_chart()`
-Creates a styled line chart with automatic Bitwise colors.
-
-**Signature:**
 ```python
 create_line_chart(
     data: Union[pd.DataFrame, List, Dict],
@@ -85,85 +38,37 @@ create_line_chart(
 ) -> go.Figure
 ```
 
-**Examples:**
-```python
-# Single line
-fig = ak.create_line_chart(df, x='date', y='price')
+Use `color_column` for multi-series grouping.
 
-# Multiple lines (grouped by color_column)
-fig = ak.create_line_chart(df, x='date', y='value', color_column='category')
+## Theme & Styling
+
+### `ak.apply_theme()`
+
+```python
+apply_theme(fig, size_preset='full', margin_preset='minimal') -> go.Figure
 ```
 
-### `create_scatter_chart()`
-Creates a styled scatter plot with automatic Bitwise colors.
+Size presets used: `'18:9'`, `'3:1'`, `'type_a'`, `'type_e'`, `'full'`, `'half'`, `'1:1'`.
+Margin presets: `'minimal'` (20px), `'standard'` (40px), `'wide'` (60px).
 
-**Signature:**
+### `ak.get_color_palette()`
+
 ```python
-create_scatter_chart(
-    data: Union[pd.DataFrame, List, Dict],
-    x: Optional[str] = None,
-    y: Optional[str] = None,
-    x_label: str = "",
-    y_label: str = "",
-    color_column: Optional[str] = None,
-    size_column: Optional[str] = None,
-    size_preset: str = "full",
-    **kwargs
-) -> go.Figure
+get_color_palette(n_colors) -> List[str]
 ```
 
-**Examples:**
-```python
-# Basic scatter
-fig = ak.create_scatter_chart(df, x='x', y='y')
+Returns N brand colors following the hierarchy.
 
-# With color grouping
-fig = ak.create_scatter_chart(df, x='x', y='y', color_column='group')
+## Export
 
-# With size mapping
-fig = ak.create_scatter_chart(df, x='x', y='y', size_column='size')
-```
+### `ak.save_chart()`
 
-### `create_heatmap()`
-Creates a styled heatmap.
-
-**Signature:**
-```python
-create_heatmap(
-    data: Union[pd.DataFrame, List[List], np.ndarray],
-    x_labels: Optional[List] = None,
-    y_labels: Optional[List] = None,
-    x_label: str = "",
-    y_label: str = "",
-    color_scale: str = "Viridis",
-    size_preset: str = "full",
-    **kwargs
-) -> go.Figure
-```
-
-**Examples:**
-```python
-# DataFrame
-fig = ak.create_heatmap(df)
-
-# 2D array
-fig = ak.create_heatmap([[1, 2], [3, 4]], 
-                        x_labels=['A', 'B'], 
-                        y_labels=['X', 'Y'])
-```
-
-## Chart Export Functions
-
-### `save_chart()`
-Saves chart in multiple formats with consistent aspect ratios.
-
-**Signature:**
 ```python
 save_chart(
     fig: go.Figure,
     title: str,
     output_dir: str = "design",
-    aspect_ratio: str = "18:9",  # Options: "18:9", "3:1", "1:1", "type_a" through "type_f"
+    aspect_ratio: str = "18:9",
     include_svg: bool = True,
     include_png: bool = True,
     include_1x1: bool = False,
@@ -171,228 +76,81 @@ save_chart(
 ) -> Dict[str, str]
 ```
 
-**Available Aspect Ratios:**
-- `"18:9"` - Wide format (1728x864)
-- `"3:1"` - Ultra-wide (1728x576)
-- `"1:1"` - Square (1152x1152)
-- `"type_a"` - 4.25x3 (1275x900)
-- `"type_b"` - 4x2.5 (1200x750)
-- `"type_c"` - 6x3.5 (1800x1050)
-- `"type_d"` - 6x3.75 (1800x1125)
-- `"type_e"` - 2.75x3.25 (825x975)
-- `"type_f"` - 2.75x3 (825x900)
+Aspect ratios: `"18:9"` (1728x864), `"3:1"` (1728x576), `"1:1"` (1152x1152), `"type_a"` (1275x900), `"type_b"` (1200x750), `"type_c"` (1800x1050), `"type_d"` (1800x1125), `"type_e"` (825x975), `"type_f"` (825x900).
 
-**Example:**
+### `ak.export_chart()`
+
 ```python
-files = ak.save_chart(fig, "My Analysis", aspect_ratio="18:9")
-# Returns: {'svg': 'design/My_Analysis.svg', 'png': 'design/My_Analysis.png'}
+export_chart(fig, filename, format="svg", width=None, height=None, scale=2) -> None
 ```
 
-### `export_chart()`
-Exports a single chart to a file.
+## Tick Marks
 
-**Signature:**
+### `ak.apply_range_tick_marks()`
+
 ```python
-export_chart(
+apply_range_tick_marks(
     fig: go.Figure,
-    filename: str,
-    format: str = "svg",  # "svg", "png", "jpg", "pdf"
-    width: Optional[int] = None,
-    height: Optional[int] = None,
-    scale: int = 2
-) -> None
-```
-
-## Theme and Styling
-
-### `apply_theme()`
-Applies Bitwise theme to any Plotly figure.
-
-**Signature:**
-```python
-apply_theme(
-    fig: go.Figure,
-    size_preset: str = "full",
-    margin_preset: str = "minimal"
+    start_date, end_date,
+    period: str = "quarter",   # "quarter", "year", "month", "week"
+    label_formatter=None,
+    ticklen: int = 10,
+    label_y_position: float = -0.01,
+    include_start_boundary: bool = True,
+    include_end_boundary: bool = True,
+    **kwargs
 ) -> go.Figure
 ```
 
-**Size Presets:**
-- `"full"` - 1200x800
-- `"half"` - 600x400
-- `"18:9"` - 1728x864
-- `"3:1"` - 1728x576
-- `"1:1"` - 1152x1152
-- `"type_a"` through `"type_f"` - Custom sizes
+Tick marks at period boundaries, labels at midpoints.
 
-**Margin Presets:**
-- `"minimal"` - 20px all sides
-- `"standard"` - 40px all sides
-- `"wide"` - 60px all sides
+## Constants
 
-**Example:**
-```python
-# Apply theme to existing figure
-fig = ak.apply_theme(fig, size_preset='full', margin_preset='minimal')
-```
-
-## Color System
-
-### Automatic Colors
-All chart functions automatically apply Bitwise brand colors based on data complexity:
-- 1 item: Green (#45b979)
-- 2 items: Green, Dark grey
-- 3+ items: Follows COLOR_HIERARCHY
-
-### Manual Color Access
-```python
-from analystkit import BITWISE_COLORS, COLOR_HIERARCHY
-
-# Get colors for N items
-colors = COLOR_HIERARCHY[3]  # Returns list of 3 colors
-
-# Full palette
-all_colors = BITWISE_COLORS
-```
-
-## Size Presets
-
-Access size presets directly:
-```python
-from analystkit import SIZE_PRESETS
-
-# Get dimensions
-size = SIZE_PRESETS['type_a']  # {'width': 1275, 'height': 900}
-```
-
-## Formatting Utilities
-
-### `format_number()`
-```python
-ak.format_number(1234567, decimals=2, thousands_sep=",")
-# Returns: "1,234,567.00"
-```
-
-### `format_percentage()`
-```python
-ak.format_percentage(0.1234, decimals=1)
-# Returns: "12.3%"
-```
-
-### `format_currency()`
-```python
-ak.format_currency(1234.56, currency="USD")
-# Returns: "$1,234.56"
-```
-
-### `format_date()`
-```python
-ak.format_date("2024-01-15", format_str="%B %d, %Y")
-# Returns: "January 15, 2024"
-```
-
-## Font Management
-
-### `setup_fonts()`
-Check and optionally install fonts.
+### Colors
 
 ```python
-from analystkit import setup_fonts
+ak.BITWISE_COLORS  # ['#45b979', '#a7d8b5', '#006472', '#62a0ad', '#6c6b71', '#b7b6b9', '#4f2984', '#927fb5', '#00b6c9', '#91d6e0', '#f05b72']
 
-# Check status
-result = setup_fonts(auto_install=False)
+ak.COLOR_HIERARCHY[1]  # ['#45b979']
+ak.COLOR_HIERARCHY[2]  # ['#45b979', '#6c6b71']
+ak.COLOR_HIERARCHY[3]  # ['#45b979', '#006472', '#6c6b71']
+# ... up to 11
 
-# Auto-install missing fonts
-result = setup_fonts(auto_install=True)
+ak.CHART_COLORS['text']        # '#1B252A'
+ak.CHART_COLORS['grid']        # '#e6e6e6'
+ak.CHART_COLORS['grid_dark']   # '#C1C8CD'
+ak.CHART_COLORS['background']  # '#ffffff'
 ```
 
-### `install_fonts()`
-Manually install fonts from package.
+### Fonts & Sizes
 
 ```python
-from analystkit import install_fonts
+ak.FONT_FAMILIES['primary']  # 'PPNeueMontreal-Regular'
+ak.FONT_FAMILIES['title']    # 'Items-Regular'
 
-result = install_fonts()
-print(result['installed'])  # List of installed fonts
+ak.FONT_SIZES['title']       # 25
+ak.FONT_SIZES['axis']        # 25
+ak.FONT_SIZES['legend']      # 25
+ak.FONT_SIZES['annotation']  # 25
 ```
 
-## Common Patterns
+### Style Defaults
 
-### Pattern 1: Simple Bar Chart
 ```python
-import analystkit as ak
-import pandas as pd
-
-data = pd.DataFrame({
-    'category': ['A', 'B', 'C'],
-    'value': [10, 20, 30]
-})
-
-fig = ak.create_bar_chart(data, x='category', y='value')
-fig.show()
+ak.STYLE_DEFAULTS['font']        # {family, size, color}
+ak.STYLE_DEFAULTS['title_font']  # {family, size, color}
+ak.STYLE_DEFAULTS['margin']      # {l, r, t, b}
+ak.STYLE_DEFAULTS['axis']        # {showgrid, gridwidth, zeroline, ...}
+ak.STYLE_DEFAULTS['xaxis']       # x-specific overrides
+ak.STYLE_DEFAULTS['yaxis']       # y-specific overrides
+ak.STYLE_DEFAULTS['legend']      # {borderwidth, bgcolor, orientation, ...}
+ak.STYLE_DEFAULTS['grid']        # {width: 1}
 ```
 
-### Pattern 2: Time Series Line Chart
-```python
-fig = ak.create_line_chart(
-    df, 
-    x='date', 
-    y='price',
-    x_label='Date',
-    y_label='Price ($)'
-)
-ak.save_chart(fig, "Price Over Time", aspect_ratio="18:9")
-```
+## Design Rules
 
-### Pattern 3: Multi-Series Chart
-```python
-# Automatically groups by color_column
-fig = ak.create_line_chart(
-    df,
-    x='date',
-    y='value',
-    color_column='category'  # Creates separate line for each category
-)
-```
-
-### Pattern 4: Custom Styling
-```python
-# Create chart
-fig = ak.create_bar_chart(data, x='x', y='y')
-
-# Apply custom size
-fig = ak.apply_theme(fig, size_preset='type_a', margin_preset='wide')
-
-# Add custom Plotly updates
-fig.update_layout(title_text="Custom Title")
-```
-
-## Key Design Principles
-
-1. **Axis Titles**: Hidden by default. Only show if explicitly provided via `x_label`/`y_label`
-2. **Grid Lines**: Only horizontal (y-axis). No vertical grid lines.
-3. **Colors**: Automatic Bitwise brand colors. No need to specify unless custom needed.
-4. **Fonts**: PPNeueMontreal-Regular for all text, Items-Regular for titles only.
-5. **Legend**: Horizontal, top-right, no border, transparent background.
-
-## Important Notes for AI
-
-1. **Data Format Flexibility**: Functions accept DataFrame, dict, or list - choose based on user's data format
-2. **Automatic Styling**: All charts are automatically styled - no manual theme application needed
-3. **Color Hierarchy**: Colors automatically assigned based on number of data series
-4. **Size Presets**: Use `size_preset` parameter, not manual width/height
-5. **Export**: Use `save_chart()` for consistent aspect ratios, `export_chart()` for custom sizes
-6. **Fonts**: May need installation on first use - suggest `setup_fonts(auto_install=True)`
-
-## Error Handling
-
-- Missing columns: Functions will raise `ValueError` with clear message
-- Missing fonts: Charts will render but may use fallback fonts
-- Export errors: Will raise `ImportError` if kaleido not installed (with helpful message)
-
-## Return Types
-
-- Chart functions return `plotly.graph_objects.Figure`
-- Can be displayed with `.show()`
-- Can be saved with `save_chart()` or `export_chart()`
-- Can be further customized with Plotly's `.update_layout()` and `.update_traces()`
+1. Axis titles hidden by default -- only shown when `x_label`/`y_label` are provided
+2. Y-axis horizontal grid lines only -- no vertical grid
+3. Colors applied automatically from brand palette based on series count
+4. PPNeueMontreal-Regular for all text, Items-Regular for titles only
+5. Legend: horizontal, top-right, no border, transparent background

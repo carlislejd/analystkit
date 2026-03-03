@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "analystkit"
-version = "0.3.0"
+version = "0.4.0"
 description = "Shared Plotly theme, visualization helpers, and chart utilities for analytics projects."
 authors = ["Josh Carlisle <josh@bitwiseinvestments.com>"]
 readme = "README.md"
@@ -10,9 +10,6 @@ packages = [{ include = "analystkit" }]
 python = "^3.8"
 plotly = ">=6.1.1"
 pandas = "^2.0.0"
-python-dotenv = "^1.0.1"
-pydantic = "^2.7.0"
-pydantic-settings = "^2.0.0"
 
 # Note: kaleido is not included as a dependency
 # Users should install it manually: pip install kaleido

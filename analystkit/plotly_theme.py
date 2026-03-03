@@ -91,33 +91,6 @@ def _apply_axis_buffers(fig):
             y_min, y_max = y_range
             fig.update_yaxes(range=[y_min, y_max])
 
-def register_theme():
-    """Register the custom theme with Plotly."""
-    # Create the custom theme layout
-    custom_layout = {
-        'plot_bgcolor': CHART_COLORS['background'],
-        'paper_bgcolor': CHART_COLORS['background'],
-        'font': STYLE_DEFAULTS['font'],
-        'margin': STYLE_DEFAULTS['margin'],
-
-        'xaxis': {
-            **STYLE_DEFAULTS['axis'],
-            'tickfont': STYLE_DEFAULTS['font'],
-        },
-        'yaxis': {
-            **STYLE_DEFAULTS['axis'],
-            'tickfont': STYLE_DEFAULTS['font'],
-        },
-        'legend': STYLE_DEFAULTS['legend'],
-    }
-    
-    # Register the theme (simplified for newer Plotly versions)
-    # Note: Template registration has changed in newer Plotly versions
-    # For now, we'll just return the custom layout
-    print("Theme registered successfully. Use apply_theme() to apply styling to individual charts.")
-    
-    return custom_layout
-
 def apply_theme(fig, size_preset='full', margin_preset='minimal'):
     """Apply the custom theme to a Plotly figure.
     
