@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "analystkit"
-version = "0.2.0"
-description = "Shared Plotly theme, viz helpers, and settings for analytics projects. Compatible with Python 3.8+ and any Plotly version. Chart export requires kaleido (optional)."
+version = "0.3.0"
+description = "Shared Plotly theme, visualization helpers, and chart utilities for analytics projects."
 authors = ["Josh Carlisle <josh@bitwiseinvestments.com>"]
 readme = "README.md"
 packages = [{ include = "analystkit" }]
@@ -10,7 +10,6 @@ packages = [{ include = "analystkit" }]
 python = "^3.8"
 plotly = ">=6.1.1"
 pandas = "^2.0.0"
-requests = "^2.31.0"
 python-dotenv = "^1.0.1"
 pydantic = "^2.7.0"
 pydantic-settings = "^2.0.0"

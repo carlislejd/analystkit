@@ -2,7 +2,7 @@
 
 A comprehensive Python package providing shared Plotly themes, visualization helpers, and settings for analytics projects. Built with consistency and reusability in mind.
 
-## 🤖 For AI Assistants
+## For AI Assistants
 
 **Quick Reference**: See [`AI_REFERENCE.md`](AI_REFERENCE.md) for a comprehensive guide designed for AI assistants.
 
@@ -41,40 +41,39 @@ ak.save_chart(fig, "Chart Title", aspect_ratio="18:9")
 - **Export Support**: High-quality chart export in multiple formats
 - **Auto-Coloring**: Automatic Bitwise brand colors with intelligent hierarchy
 - **Clean Design**: Horizontal grid lines only (no vertical clutter), no default axis titles, no legend borders
-- **Asset Data**: Dummy-proof crypto and index data fetching with auto-capitalization
 - **Smart Export**: One-line chart saving with consistent aspect ratios (18:9, 1:1)
 
 ## Design Philosophy
 
 AnalystKit follows a clean, professional design approach:
 
-### **Grid Lines**
+### Grid Lines
 - **X-axis**: No vertical grid lines (clean, uncluttered look)
 - **Y-axis**: Horizontal grid lines only (helps with value reading)
 - **Zero line**: Only on Y-axis for reference
 
-### **Colors**
+### Colors
 - **Automatic**: All charts automatically use Bitwise brand colors
 - **Hierarchy**: Colors follow a logical progression based on data complexity
 - **Consistent**: Same color scheme across all chart types
 - **Override**: Users can still specify custom colors if needed
 
-### **Axis Titles**
+### Axis Titles
 - **No defaults**: Clean look without unnecessary labels
 - **Optional**: Add titles only when explicitly needed
 - **Professional**: Minimalist approach for business presentations
 
-### **Typography**
+### Typography
 - **Brand fonts**: Uses PP Neue Montreal Book and Items Regular
 - **Readable sizes**: Optimized for both screen and print
 - **Consistent**: Same font family across all chart elements
 
-### **Legend**
+### Legend
 - **No borders**: Clean, borderless legend design
 - **Transparent background**: Seamless integration with chart background
 - **Consistent fonts**: Matches chart typography standards
 
-### **Smart Export (`save_chart`)**
+### Smart Export (`save_chart`)
 
 One-line chart saving with consistent aspect ratios:
 
@@ -101,35 +100,6 @@ files = save_chart(fig, "My Analysis", aspect_ratio="18:9", include_1x1=True)
 - **Clean filenames**: Sanitizes titles for file system compatibility
 - **High quality**: PNG exports with configurable scale factor
 
-### **Asset Data (`assets.py`)**
-
-Dummy-proof data fetching for crypto and indices:
-
-```python
-from analystkit import fetch_crypto_history, get_crypto_dataframe
-
-# Auto-capitalization - works with any case input
-data = fetch_crypto_history('btc')      # 'btc' → 'BTC'
-data = fetch_crypto_history('ETH')      # 'ETH' → 'ETH'
-data = fetch_crypto_history('sol')      # 'sol' → 'SOL'
-
-# Get clean DataFrames for analysis
-df = get_crypto_dataframe('btc')        # Returns pandas DataFrame
-print(f"Fetched {len(df)} data points for {df['symbol'].iloc[0]}")
-
-# List available assets
-from analystkit import list_available_cryptos, list_available_indices
-cryptos = list_available_cryptos()      # ['BTC', 'ETH', 'SOL', ...]
-indices = list_available_indices()      # ['DEFI', 'BIT10', 'BITW', ...]
-```
-
-**Features:**
-- **Auto-capitalization**: Symbols automatically converted to uppercase
-- **No date limits**: Fetches all available historical data
-- **Rich metadata**: Includes statistics, date ranges, and price info
-- **Error handling**: Graceful fallbacks with helpful error messages
-- **IDE support**: Full type hints and detailed docstrings for hover help
-
 ## Installation
 
 ### From GitHub (Recommended for Team Use)
@@ -142,7 +112,7 @@ pip install git+https://github.com/carlislejd/analystkit.git
 poetry add git+https://github.com/carlislejd/analystkit.git
 
 # For a specific version/tag
-pip install git+https://github.com/carlislejd/analystkit.git@v0.1.4
+pip install git+https://github.com/carlislejd/analystkit.git@v0.3.0
 ```
 
 ### Optional Dependencies
@@ -155,13 +125,9 @@ poetry add kaleido
 
 # With pip (let pip choose the best version for your platform)
 pip install kaleido
-
-# For specific platforms, you may need to specify a version:
-# pip install kaleido==0.2.1  # For Plotly 5.x compatibility
-# pip install kaleido>=1.0.0  # For Plotly 6.x compatibility
 ```
 
-**Note:** Chart export functionality requires kaleido. Without it, you can still create and display charts, but export will raise an ImportError with helpful installation instructions. The package is designed to work with any kaleido version compatible with your Plotly version.
+**Note:** Chart export functionality requires kaleido. Without it, you can still create and display charts, but export will raise an ImportError with helpful installation instructions.
 
 ### Local Development
 
@@ -305,16 +271,13 @@ formatted = format_date("2024-01-15", format_str="%B %d, %Y")
 
 ### Settings Management (`settings.py`)
 
-Manage configuration and API keys:
+Manage chart configuration:
 
 ```python
-from analystkit import load_settings, get_api_key, create_env_template
+from analystkit import load_settings, create_env_template
 
 # Load settings
 settings = load_settings()
-
-# Get API key
-api_key = get_api_key('openai')
 
 # Create environment template
 create_env_template()
@@ -334,10 +297,6 @@ PLOTLY_RENDERER=default
 # Export settings
 DEFAULT_EXPORT_FORMAT=svg
 DEFAULT_EXPORT_SCALE=2
-
-# API keys
-OPENAI_API_KEY=your_openai_key_here
-MAPBOX_TOKEN=your_mapbox_token_here
 
 # Chart defaults
 DEFAULT_CHART_WIDTH=1200
@@ -367,20 +326,13 @@ To use custom fonts, place your `.ttf` or `.otf` files in the `fonts/` directory
 
 ### Required Dependencies
 - Python 3.8+
-- Plotly 5.24.0+ (compatible with any version including 6.x)
+- Plotly 6.1.1+
 - Pandas 2.0.0+
 - Pydantic 2.7.0+
 - python-dotenv 1.0.1+
-- requests 2.31.0+
 
 ### Optional Dependencies
 - **kaleido**: Required only for chart export functionality (PNG, SVG, PDF)
-
-**Note:** The package will install and work without kaleido, but chart export will raise an ImportError with helpful installation instructions. 
-
-**Version Compatibility:**
-- **Plotly 5.x + kaleido 0.2.1+** = Works great
-- **Plotly 6.x + kaleido 1.0+** = Also works great
 
 ## Development
 
@@ -394,6 +346,7 @@ analystkit/
 │   ├── plotly_theme.py      # Theme management
 │   ├── charts.py            # Chart helper functions
 │   ├── formats.py           # Formatting utilities
+│   ├── fonts.py             # Font management
 │   ├── settings.py          # Configuration management
 │   └── fonts/               # Custom font files
 ├── pyproject.toml           # Poetry configuration
@@ -421,7 +374,7 @@ poetry run black --check .
 
 ## Updating the Package
 
-### For Users (Your Coworkers)
+### For Users
 
 ```bash
 # Update to latest version
@@ -431,7 +384,7 @@ pip install --upgrade git+https://github.com/carlislejd/analystkit.git
 poetry update analystkit
 ```
 
-### For Developers (You)
+### For Developers
 
 ```bash
 # Make your changes
@@ -440,23 +393,15 @@ git commit -m "Description of changes"
 git push origin main
 
 # Tag a new release
-git tag v1.1.0
-git push origin v1.1.0
+git tag v0.3.0
+git push origin v0.3.0
 ```
 
 ## Compatibility Notes
 
 - **Python**: 3.8+ required
-- **Plotly**: 5.24.0+ (compatible with any version including 6.x)
+- **Plotly**: 6.1.1+ (compatible with any version including 6.x)
 - **Kaleido**: Any version compatible with your Plotly version (optional)
-
-**Cross-Platform Support**: The package now handles ARM64 (Apple Silicon) compatibility by making kaleido optional. Users can install the kaleido version that works best for their platform and Plotly version.
-
-**Version Compatibility Guide:**
-- **Plotly 5.x + kaleido 0.2.1+** = Works great
-- **Plotly 6.x + kaleido 1.0+** = Also works great
-
-For troubleshooting, see the [GitHub issues](https://github.com/carlislejd/analystkit/issues) or check your Poetry environment with `poetry env info`.
 
 ## Contributing
 
@@ -472,4 +417,4 @@ For troubleshooting, see the [GitHub issues](https://github.com/carlislejd/analy
 
 ## Support
 
-For questions and support, please open an issue on the repository or contact [your-email@example.com].
+For questions and support, please open an issue on the repository or contact josh@bitwiseinvestments.com.

@@ -396,4 +396,3 @@ fig.update_layout(title_text="Custom Title")
 - Can be displayed with `.show()`
 - Can be saved with `save_chart()` or `export_chart()`
 - Can be further customized with Plotly's `.update_layout()` and `.update_traces()`
-
