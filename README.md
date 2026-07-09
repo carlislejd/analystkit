@@ -1,10 +1,12 @@
 # AnalystKit
 
-Shared Plotly theme, visualization helpers, and chart utilities for analytics projects. Applies Bitwise brand styling automatically.
+Bitwise brand theme and chart utilities for Plotly. Applies brand colors, fonts, grid styling, and automatic font scaling to any Plotly figure.
 
 ## For AI Assistants
 
-See [`AI_REFERENCE.md`](AI_REFERENCE.md) for a complete API reference.
+Start with [`AGENTS.md`](AGENTS.md) for agent instructions, then use
+[`CHART_RECIPES.md`](CHART_RECIPES.md) for production chart patterns and
+[`AI_REFERENCE.md`](AI_REFERENCE.md) for the complete API reference.
 
 ## Quick Start
 
@@ -14,10 +16,14 @@ import pandas as pd
 
 data = pd.DataFrame({'category': ['A', 'B', 'C'], 'value': [10, 20, 30]})
 
-fig = ak.create_bar_chart(data, x='category', y='value')
+# Convenience wrapper (bar, line, scatter, area, pie, histogram, etc.)
+fig = ak.create_chart(data, chart_type='bar', x='category', y='value')
 fig.show()
 
-ak.save_chart(fig, "My Chart", aspect_ratio="18:9")
+# Or: build any Plotly figure and brand it
+import plotly.graph_objects as go
+fig = go.Figure(data=go.Heatmap(z=[[1,2],[3,4]]))
+fig = ak.apply_theme(fig, size_preset='1:1')
 ```
 
 ## Installation
@@ -25,60 +31,44 @@ ak.save_chart(fig, "My Chart", aspect_ratio="18:9")
 ```bash
 pip install git+https://github.com/carlislejd/analystkit.git
 
-# Or with Poetry
-poetry add git+https://github.com/carlislejd/analystkit.git
-```
-
-Chart export requires kaleido:
-
-```bash
+# Static image export (PNG, SVG, PDF, etc.) requires kaleido:
 pip install kaleido
 ```
 
 ## API Surface
 
-### Chart Creation
-- `create_bar_chart()` -- bar charts (vertical/horizontal)
-- `create_line_chart()` -- line charts with optional grouping
+### Core Theme
+- `apply_theme(fig)` — brand any Plotly figure (the main entry point)
+- `get_color_palette(n)` — get N colors from the brand palette
+- `compute_font_sizes(w, h)` — get auto-scaled font sizes for given dimensions
 
-### Theme & Styling
-- `apply_theme()` -- apply Bitwise styling to any Plotly figure
-- `get_color_palette()` -- get N colors from the brand palette
+### Chart Creation
+- `create_chart()` — convenience wrapper supporting bar, line, scatter, area, pie, histogram, box, violin, funnel, treemap, sunburst
+- `create_bar_chart()` / `create_line_chart()` — backward-compatible aliases
 
 ### Export
-- `save_chart()` -- export in SVG/PNG with predefined aspect ratios
-- `export_chart()` -- export a single format to a file path
+- `export_chart()` — export to svg, png, jpg, pdf, webp, eps, html, or json
+- `save_chart()` — batch export in multiple formats with predefined aspect ratios
 
-### Tick Marks
-- `apply_range_tick_marks()` -- boundary tick marks with midpoint labels for time series
+### Time-Series
+- `apply_range_tick_marks()` — boundary ticks with midpoint labels for quarter/year/month/week periods
 
 ### Constants
-- `BITWISE_COLORS` -- full 11-color palette
-- `COLOR_HIERARCHY` -- palette subsets keyed by item count (1-11)
-- `CHART_COLORS` -- background, grid, text colors
-- `FONT_FAMILIES` -- primary (PPNeueMontreal) and title (Items) fonts
-- `FONT_SIZES` -- standardized sizes for title, axis, legend, annotation
-- `STYLE_DEFAULTS` -- complete style config (fonts, margins, axes, legend)
-- `SIZE_PRESETS` -- dimension presets (full, half, 18:9, 3:1, 1:1, type_a-f)
-- `MARGIN_PRESETS` -- margin presets (minimal, standard, wide)
+- `BITWISE_COLORS`, `COLOR_HIERARCHY`, `CHART_COLORS`
+- `FONT_FAMILIES`, `FONT_SIZES`, `SIZE_PRESETS`, `MARGIN_PRESETS`
+
+## Key Design Principles
+
+1. **Font sizes auto-scale** — text adjusts proportionally to chart dimensions
+2. **Axis titles hidden by default** — shown only when explicitly provided
+3. **Horizontal y-axis gridlines only** — no vertical grid
+4. **Automatic color assignment** from the brand hierarchy based on series count
+5. **Any Plotly chart type** — `apply_theme()` works on any figure
 
 ## Dependencies
 
 - Python 3.8+
 - Plotly >= 6.1.1
 - Pandas >= 2.0.0
-- kaleido (optional, for chart export)
-
-## Project Structure
-
-```
-analystkit/
-├── analystkit/
-│   ├── __init__.py        # Public API
-│   ├── colors.py          # Palettes, fonts, style constants
-│   ├── plotly_theme.py    # Theme application and color palette logic
-│   └── charts.py          # Chart creation, export, tick marks
-├── pyproject.toml
-├── README.md
-└── AI_REFERENCE.md
-```
+- NumPy >= 1.21
+- kaleido (optional, for static image export)

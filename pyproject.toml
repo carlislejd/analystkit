@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "analystkit"
-version = "0.4.0"
-description = "Shared Plotly theme, visualization helpers, and chart utilities for analytics projects."
+version = "0.5.0"
+description = "Bitwise brand theme, chart utilities, and export helpers for Plotly."
 authors = ["Josh Carlisle <josh@bitwiseinvestments.com>"]
 readme = "README.md"
 packages = [{ include = "analystkit" }]
@@ -10,15 +10,14 @@ packages = [{ include = "analystkit" }]
 python = "^3.8"
 plotly = ">=6.1.1"
 pandas = "^2.0.0"
+numpy = ">=1.21"
 
-# Note: kaleido is not included as a dependency
-# Users should install it manually: pip install kaleido
-# or poetry add kaleido (with version compatible with their platform)
-# 
-# Compatibility guide:
-# - Plotly 5.x + kaleido 0.2.1+ = Works great
-# - Plotly 6.x + kaleido 1.0+ = Also works great
-kaleido = "^1.1.0"
+# Static image export (svg, png, pdf, etc.)
+# Install manually if needed: pip install kaleido
+kaleido = { version = "^1.1.0", optional = true }
+
+[tool.poetry.extras]
+export = ["kaleido"]
 
 [build-system]
 requires = ["poetry-core"]

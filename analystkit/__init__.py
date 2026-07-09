@@ -1,7 +1,12 @@
 """
-AnalystKit - Shared Plotly theme, visualization helpers, and chart utilities for analytics projects.
+AnalystKit — Bitwise brand theme and chart utilities for Plotly.
 
-Chart export requires kaleido (install with: pip install kaleido)
+The main entry point is ``apply_theme(fig)`` which brands any Plotly
+figure. Convenience wrappers like ``create_chart()`` handle common
+data patterns and call ``apply_theme`` under the hood.
+
+Chart export requires kaleido for static images (pip install kaleido).
+HTML and JSON export work out of the box.
 """
 
 from .colors import (
@@ -13,15 +18,40 @@ from .colors import (
     STYLE_DEFAULTS,
     SIZE_PRESETS,
     MARGIN_PRESETS,
+    compute_font_sizes,
+    compute_font_scale,
 )
 from .plotly_theme import apply_theme, get_color_palette
-from .charts import create_bar_chart, create_line_chart, export_chart, save_chart, apply_range_tick_marks
+from .charts import (
+    create_chart,
+    create_bar_chart,
+    create_line_chart,
+    export_chart,
+    save_chart,
+    apply_range_tick_marks,
+)
 
-__version__ = "0.4.0"
+__version__ = "0.5.0"
 __author__ = "Josh Carlisle <josh@bitwiseinvestments.com>"
 
 __all__ = [
-    # Colors and styling
+    # Core theme
+    "apply_theme",
+    "get_color_palette",
+
+    # Chart constructors
+    "create_chart",
+    "create_bar_chart",
+    "create_line_chart",
+
+    # Export
+    "export_chart",
+    "save_chart",
+
+    # Time-series tick marks
+    "apply_range_tick_marks",
+
+    # Colors & styling constants
     "BITWISE_COLORS",
     "COLOR_HIERARCHY",
     "CHART_COLORS",
@@ -31,14 +61,7 @@ __all__ = [
     "SIZE_PRESETS",
     "MARGIN_PRESETS",
 
-    # Theme
-    "apply_theme",
-    "get_color_palette",
-
-    # Charts
-    "create_bar_chart",
-    "create_line_chart",
-    "export_chart",
-    "save_chart",
-    "apply_range_tick_marks",
+    # Dynamic font scaling
+    "compute_font_sizes",
+    "compute_font_scale",
 ]
