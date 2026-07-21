@@ -1,9 +1,10 @@
 # AnalystKit Chart Recipes for Agents
 
 This guide is the practical companion to `AI_REFERENCE.md`. It is based on
-observed production usage in Bitwise chart generator scripts and composite deck
-refresh scripts. The main lesson is simple: AnalystKit is usually the styling
-and export layer around a custom Plotly figure.
+observed production usage in Bitwise chart generator scripts and the current
+composite deck quarterly report chart scripts. The main lesson is simple:
+AnalystKit is usually the styling and export layer around a custom Plotly
+figure.
 
 ## What the Real Charts Do
 
@@ -13,6 +14,9 @@ Across the reviewed examples, the common production pattern is:
 - Call `ak.apply_theme(..., margin_preset="minimal")`.
 - Add final axis ranges, unit-specific tick labels, range ticks, annotations,
   and custom legend markers.
+- Keep generated chart images visually clean: do not embed slide titles,
+  source notes, or axis titles in the chart unless the chart will live outside
+  a deck.
 - Export with `ak.save_chart()` for one-off charts or `ak.export_chart()` /
   `fig.write_image()` inside deck refresh automation.
 - For deck refreshes, expose `build_figure(start_date=None, end_date=None)`.
@@ -32,6 +36,34 @@ Plotly Express. If you are building a financial chart with custom ticks,
 stacked areas, annotations, endpoint callouts, matrix cells, insets, semantic
 colors, or deck metadata, build with Plotly graph objects and then apply the
 theme.
+
+## Current Composite Deck Style
+
+The current quarterly report and composite deck charts are designed as slide
+assets, not standalone research-page charts. Let the slide own the title,
+subtitle, source, and date footer. The chart image should mostly be data,
+axes, labels, legends, and any necessary inset/table overlays.
+
+Default rules for deck-bound charts:
+
+- Do not set chart titles, slide titles, source footers, or source prefixes in
+  the generated figure.
+- Do not use `xaxis_title`, `yaxis_title`, or non-empty axis title text.
+- Use explicit `tickmode="array"` with deliberate `tickvals` and `ticktext`
+  for finance units, percentages, bounded metrics, and any range that needs
+  stable slide-to-slide comparison.
+- Use `ak.apply_range_tick_marks()` for continuous date axes that span months,
+  quarters, or years. Apply the theme first, then range ticks, then final axis
+  and margin overrides.
+- Use dummy `go.Scatter(x=[None], y=[None], mode="markers", ...)` traces for
+  circular legend dots when the visible traces are lines or filled areas.
+- Use `showlegend=False` for single-series charts and charts whose slide/table
+  already names the series.
+- Set margins per chart after the theme. Common wide-chart margins are compact
+  top/right with extra bottom for range tick labels, for example
+  `margin=dict(l=58, r=20, t=20, b=74)`.
+- Put automation facts such as actual date coverage, table values, and overlay
+  image metadata in `fig.layout.meta`; do not render them as chart furniture.
 
 ## Basic Setup
 
@@ -69,6 +101,49 @@ Use Plotly plus `ak.apply_theme()` when:
   heatmap, table, candlestick, inset metric box, or custom annotation.
 - You need semantic colors, manual tick labels, or a specific y-axis range.
 - The script will be called by a deck refresh system.
+
+## Deck-Native Layout Pattern
+
+Use this order for the newer chart style:
+
+```python
+fig = go.Figure()
+fig.add_trace(...)
+
+fig = ak.apply_theme(fig, size_preset="3:1", margin_preset="minimal", auto_colors=False)
+
+fig = ak.apply_range_tick_marks(
+    fig,
+    start_date=df["date_string"].min(),
+    end_date=df["date_string"].max(),
+    period="year",
+    ticklen=10,
+    label_y_position=-0.01,
+    include_end_boundary=False,
+    tickcolor=ak.CHART_COLORS["grid_dark"],
+    label_font_family=ak.FONT_FAMILIES["primary"],
+)
+
+fig.update_layout(
+    title=None,
+    showlegend=False,
+    margin=dict(l=58, r=20, t=20, b=74),
+    meta={
+        "actual_start_date": df["date_string"].min(),
+        "actual_end_date": df["date_string"].max(),
+    },
+)
+fig.update_xaxes(title=None)
+fig.update_yaxes(
+    title=None,
+    tickmode="array",
+    tickvals=[0, 1, 2, 3, 4],
+    ticktext=["$0 ", "$1T ", "$2T ", "$3T ", "$4T "],
+)
+```
+
+If you need to remove partial period labels after range ticks, filter
+`fig.layout.annotations` after `apply_range_tick_marks()` and before export.
 
 ## Size and Export Defaults
 
@@ -166,6 +241,8 @@ Notes:
   are available.
 - Set y-axis ranges deliberately for bounded metrics such as correlations.
 - Add endpoint annotations only after the theme is applied.
+- Leave `title=None`, and keep source/date text in the slide layer for deck
+  refresh charts.
 
 ## Recipe: Monthly Net Flow Bar Chart
 
@@ -268,6 +345,92 @@ Notes:
 - For stacked areas, manually assign colors and disable auto-colors.
 - Add dummy scatter traces for clean circular legend markers.
 - Reverse legend order when the visual stack reads top-to-bottom.
+- If the legend sits outside the plot, reserve right margin explicitly, for
+  example `margin=dict(b=80, t=60, r=220)`.
+
+## Recipe: Circular Dot Legends for Lines and Areas
+
+Plotly line traces produce line-style legend swatches. The newer deck charts
+usually prefer small circular legend dots. Hide the visible traces from the
+legend and add invisible marker-only traces:
+
+```python
+for name, color, final_value in legend_items:
+    fig.add_trace(
+        go.Scatter(
+            x=[None],
+            y=[None],
+            mode="markers",
+            marker=dict(size=10, color=color, symbol="circle", line=dict(width=0)),
+            showlegend=True,
+            name=f"{name} {final_value:+.0f}%",
+            hoverinfo="skip",
+        )
+    )
+
+fig.update_layout(
+    showlegend=True,
+    legend=dict(
+        orientation="v",
+        yanchor="top",
+        y=1,
+        xanchor="left",
+        x=1.02,
+        tracegroupgap=0,
+    ),
+    margin=dict(b=80, t=60, r=220),
+)
+```
+
+Sort legend items by the final displayed metric when that makes the chart
+easier to scan, such as constituent performance charts ranked by final return.
+
+## Recipe: Inset Metrics and Overlay Tables
+
+Use insets sparingly when the chart needs deck-visible summary figures such as
+ETF net flows or AUM. Draw them as paper-referenced shapes and annotations so
+they stay fixed in the exported image:
+
+```python
+fig.add_shape(
+    type="rect",
+    xref="paper",
+    yref="paper",
+    x0=0.68,
+    x1=0.815,
+    y0=0.72,
+    y1=1.08,
+    line=dict(color="#d2d2d2", width=1),
+    fillcolor="white",
+    layer="above",
+)
+fig.add_annotation(
+    x=0.7475,
+    y=1.005,
+    xref="paper",
+    yref="paper",
+    text="Net Flows<br>Since Launch<br>(USD Billions)",
+    showarrow=False,
+    align="center",
+    font=dict(family=ak.FONT_FAMILIES["primary"], size=16, color="#4f5357"),
+)
+fig.add_annotation(
+    x=0.7475,
+    y=0.79,
+    xref="paper",
+    yref="paper",
+    text="<b>$42.0B</b>",
+    showarrow=False,
+    align="center",
+    font=dict(family=ak.FONT_FAMILIES["primary"], size=32, color="#171717"),
+)
+```
+
+For larger tables, create a separate transparent or white-background Plotly
+figure with hidden axes, fixed dimensions, zero margins, and shape/annotation
+cells. Return table inputs through `fig.layout.meta`, and expose a
+`save_overlay_images(fig, *, output_dir, output_basename, png_scale=1)` helper
+when the deck refresh needs to place that table as a separate image.
 
 ## Recipe: Matrix, Heatmap, or Custom Shape Chart
 
@@ -379,7 +542,8 @@ Composite deck config typically points at the source script and records:
 - `png_scale`: usually `1` or `2`
 - `date_mode`: how to resolve start/end dates
 - `targets`: slide/image object IDs for replacement
-- `text_updates`: regex replacements for source footers or as-of dates
+- `text_updates`: regex replacements for source footers or as-of dates in the
+  slide, not in the generated chart image
 
 ## Common Footguns
 
@@ -387,6 +551,8 @@ Composite deck config typically points at the source script and records:
   shape labels. Use `ak.compute_font_sizes()` for those.
 - Do not use `create_chart()` for complex finance charts just because it can
   make a line or bar chart.
+- Do not embed slide titles, source notes, source prefixes, or as-of footers in
+  deck chart images. Keep those in the presentation layer.
 - Do not rely on local current dates inside deck scripts. Accept `start_date`
   and `end_date` and put actual data coverage in `fig.layout.meta`.
 - Do not apply the theme after manually setting final semantic colors unless
@@ -401,9 +567,11 @@ Before handing back a chart:
 
 - Data is sorted and numeric columns are coerced.
 - Units are visible in tick labels or annotations.
-- Axis titles are hidden unless needed for clarity.
+- Chart titles, source notes, and axis titles are absent for deck assets unless
+  there is a specific standalone-chart requirement.
 - `ak.apply_theme()` has been called.
 - Date axes use range tick marks when the chart spans quarters or years.
+- Legends use circular marker traces when line/area swatches are visually noisy.
 - Exported files are saved in a predictable output directory.
 - PNG/SVG dimensions match the intended aspect ratio.
 - Any deck chart exposes `build_figure(start_date=None, end_date=None)`.

@@ -13,7 +13,28 @@ looks right at every chart size.
 When you are working from the AnalystKit repository, read `CHART_RECIPES.md`
 for the production recipe guide and `AI_REFERENCE.md` for exact signatures.
 The real-world default is custom Plotly first, `ak.apply_theme()` second,
-then `ak.save_chart()` or `ak.export_chart()`.
+then range ticks / final axis overrides, then `ak.save_chart()` or
+`ak.export_chart()`.
+
+## Current Deck Style
+
+For composite deck and quarterly report charts, the chart image should be
+mostly the chart itself. The slide owns the title, source, and footer.
+
+- Do not embed chart titles, source notes, source prefixes, or as-of footers in
+  generated deck chart images.
+- Keep x/y axis titles hidden unless the chart will be used standalone and the
+  units are otherwise unclear.
+- Prefer custom Plotly graph objects plus `ak.apply_theme()` for financial
+  charts with manual ticks, range-bound dates, insets, or deck metadata.
+- Use explicit `tickmode="array"` with deliberate `tickvals` and `ticktext`
+  for dollars, trillions, billions, percentages, and bounded metrics.
+- Use `ak.apply_range_tick_marks()` for continuous date axes spanning months,
+  quarters, or years.
+- Use dummy marker-only `go.Scatter(x=[None], y=[None], mode="markers", ...)`
+  traces for clean circular legend dots on line and area charts.
+- Put actual date coverage, table values, and overlay-image data in
+  `fig.layout.meta` for downstream deck automation.
 
 ## Setup
 
@@ -86,17 +107,25 @@ Available presets: `full` (1200×800), `half` (600×400), `18:9` (1728×864),
 **Font sizes auto-scale** with chart dimensions. You never need to manually
 set font sizes — the library computes them proportionally.
 
-### Adding Labels and Titles
+### Labels, Titles, and Sources
 
-Axis titles are hidden by default (the Bitwise design standard). Add them
-only when the data needs context:
+Axis titles are hidden by default (the Bitwise design standard). Add them only
+when the chart is standalone and the data needs context:
 
 ```python
 fig = ak.create_chart(df, "bar", x="month", y="revenue",
                        x_label="", y_label="Revenue ($M)")
 ```
 
-For chart titles, use Plotly's native `update_layout`:
+For deck charts, do not set a title:
+
+```python
+fig.update_layout(title=None)
+fig.update_xaxes(title=None)
+fig.update_yaxes(title=None)
+```
+
+For a truly standalone chart, use Plotly's native `update_layout`:
 
 ```python
 fig.update_layout(title="Monthly Revenue by Region")
@@ -172,6 +201,30 @@ fig = ak.apply_range_tick_marks(
     start_date="2023-01-01",
     end_date="2025-12-31",
     period="quarter",  # or "year", "month", "week"
+    tickcolor=ak.CHART_COLORS["grid_dark"],
+    label_font_family=ak.FONT_FAMILIES["primary"],
+)
+```
+
+Apply the theme before range tick marks, then apply final axis and margin
+overrides.
+
+### Circular Legend Dots
+
+For line and area charts, hide the visible traces from the legend and add
+marker-only legend traces:
+
+```python
+fig.add_trace(
+    go.Scatter(
+        x=[None],
+        y=[None],
+        mode="markers",
+        marker=dict(size=10, color=color, symbol="circle", line=dict(width=0)),
+        showlegend=True,
+        name=label,
+        hoverinfo="skip",
+    )
 )
 ```
 
@@ -179,7 +232,8 @@ fig = ak.apply_range_tick_marks(
 
 1. Load/prepare data (DataFrame, dict, list, CSV, etc.)
 2. Create figure via `create_chart()` or build with Plotly + `apply_theme()`
-3. Add labels, titles, or annotations as needed
+3. Add range ticks, manual tick labels, circular legend markers, or annotations
+   as needed
 4. Export with `export_chart()` or `save_chart()`
 5. Present the file to the user
 
@@ -197,5 +251,6 @@ def build_figure(start_date=None, end_date=None):
 ```
 
 Keep file export in `save_outputs()` or `main()`, not at import time. Put
-downstream facts such as `actual_end_date`, `actual_start_date`, or
-`table_values` in `fig.layout.meta`.
+downstream facts such as `actual_end_date`, `actual_start_date`,
+`aum_actual_end_date`, `table_values`, or overlay image instructions in
+`fig.layout.meta`.

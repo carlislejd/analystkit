@@ -16,6 +16,11 @@ colors, fonts, grid, legend, and automatic font scaling.
 Use it when your data is a simple DataFrame/dict/list. Use `apply_theme()`
 directly when you need full control over the Plotly figure.
 
+For composite deck and quarterly report charts, generated chart images should
+not embed slide titles, sources, or footers. Keep those in the slide layer and
+use the figure for data, axes, tick labels, legends, annotations, insets, and
+automation metadata.
+
 ---
 
 ## Theme & Styling
@@ -191,10 +196,15 @@ ak.SIZE_PRESETS['type_a']  # {'width': 1275, 'height': 900}
 
 ### Design Rules
 
-1. Axis titles hidden by default — shown only with explicit `x_label`/`y_label`
-2. Y-axis: horizontal gridlines. X-axis: no gridlines.
-3. Colors auto-applied from brand hierarchy based on series count
-4. PPNeueMontreal-Book for body text, Items-Regular for titles only
-5. PPNeueMontrealMono-Variable for axis tick labels (numeric readability)
-6. Legend: horizontal, top-right, no border, transparent background
-7. Font sizes scale proportionally with chart dimensions (no manual sizing)
+1. Chart titles and source notes omitted by default for deck-bound charts
+2. Axis titles hidden by default — shown only with explicit `x_label`/`y_label`
+   for standalone charts
+3. Y-axis: horizontal gridlines. X-axis: no gridlines.
+4. Colors auto-applied from brand hierarchy based on series count
+5. PPNeueMontreal-Book for body text, Items-Regular for standalone titles only
+6. PPNeueMontrealMono-Variable for axis tick labels when numeric readability
+   matters
+7. Legend: no border, transparent background; use dummy marker traces for
+   circular dot legends on line/area charts
+8. Font sizes scale proportionally with chart dimensions (no manual sizing)
+9. Deck automation metadata belongs in `fig.layout.meta`, not rendered text

@@ -60,10 +60,13 @@ pip install kaleido
 ## Key Design Principles
 
 1. **Font sizes auto-scale** — text adjusts proportionally to chart dimensions
-2. **Axis titles hidden by default** — shown only when explicitly provided
-3. **Horizontal y-axis gridlines only** — no vertical grid
-4. **Automatic color assignment** from the brand hierarchy based on series count
-5. **Any Plotly chart type** — `apply_theme()` works on any figure
+2. **Deck charts stay chart-focused** — slide titles, sources, and footers live
+   in the presentation layer
+3. **Axis titles hidden by default** — shown only when explicitly provided for
+   standalone charts
+4. **Horizontal y-axis gridlines only** — no vertical grid
+5. **Automatic color assignment** from the brand hierarchy based on series count
+6. **Any Plotly chart type** — `apply_theme()` works on any figure
 
 ## Dependencies
 
