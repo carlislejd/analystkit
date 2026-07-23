@@ -4,6 +4,7 @@ Everything is accessed via `import analystkit as ak`.
 
 For production chart-building patterns, deck-ready script contracts, and
 examples derived from real Bitwise chart usage, see `CHART_RECIPES.md`.
+For ad hoc Bitwise reports, see `REPORT_RECIPES.md`.
 
 ## Core Concept
 
@@ -134,6 +135,49 @@ save_chart(
     png_scale: int = 2
 ) -> Dict[str, str]
 ```
+
+---
+
+## Report Building
+
+AnalystKit also includes the house style for ad hoc Bitwise reports: polished
+HTML/PDF reports with a dark cover, compact KPI cards, report-native SVG
+charts, tables, panels, and visual-QA helpers.
+
+### Core Classes
+
+```python
+ReportDocument(title, pages, report_date=None, css_overrides="")
+ReportPage(title, content="", kicker="", intro="", cover=False, subtitle="", eyebrow="", meta=[], note="", page_number=None, footer_label="", extra_class="")
+ReportMetaItem(label, value)
+ReportMetric(label, value, note="", tone="default")
+```
+
+### Component Helpers
+
+```python
+metric_grid(metrics) -> str
+panel(title, body, trusted_html=False, class_name="") -> str
+bullet_list(items) -> str
+html_table(rows, columns=None, numeric_columns=()) -> str
+chart_panel(svg_or_html, compact=False, tall=False, class_name="") -> str
+image_panel(path, alt="", height="3.6in") -> str
+line_chart_svg(rows, x, y, title, width=760, height=280, color=REPORT_COLORS["teal"]) -> str
+horizontal_bar_svg(rows, label, value, title, width=760, height=300, limit=10, colors=None) -> str
+```
+
+### Export / QA Helpers
+
+```python
+ReportDocument.save_html(path) -> Path
+ReportDocument.export_pdf(path, html_path=None) -> Path
+export_report_pdf(html_path, pdf_path) -> Path
+render_pdf_pages(pdf_path, output_prefix, pdftoppm="pdftoppm", resolution=130) -> list[Path]
+make_contact_sheet(pages, output_path, thumb_size=(260, 340), columns=3) -> Path
+report_css() -> str
+```
+
+PDF export requires Playwright. Contact-sheet generation requires Pillow.
 
 ---
 

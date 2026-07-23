@@ -1,17 +1,22 @@
 ---
 name: analystkit
-description: "Create professional, Bitwise-branded Plotly charts from data. Use this skill whenever the user wants to make a chart, graph, plot, visualization, or data graphic — whether from a CSV, DataFrame, JSON, API response, or inline data. Also use when the user mentions analystkit, asks for branded charts, or wants to export charts in any format (PNG, SVG, PDF, HTML, etc.). Covers bar charts, line charts, scatter plots, area charts, pie charts, histograms, box plots, heatmaps, and any other Plotly chart type."
+description: "Create professional Bitwise-branded charts and ad hoc reports. Use for Plotly charts, graphs, visualizations, branded chart exports, or polished Bitwise HTML/PDF reports such as client-request readouts, workflow audits, CIO notes, and portfolio simulation summaries."
 ---
 
-# AnalystKit — Chart Creation Skill
+# AnalystKit — Chart and Report Creation Skill
 
 You have access to the **analystkit** Python library, which applies Bitwise
 brand styling to Plotly charts. It handles colors, fonts, grid styling,
 legend formatting, and — importantly — automatic font scaling so text
 looks right at every chart size.
 
+AnalystKit also includes the canonical Bitwise ad hoc report style: a dark
+Bitwise cover, compact KPI cards, report-native SVG helpers, tables, panels,
+HTML-to-PDF export, and contact-sheet QA.
+
 When you are working from the AnalystKit repository, read `CHART_RECIPES.md`
-for the production recipe guide and `AI_REFERENCE.md` for exact signatures.
+for the chart production recipe guide, `REPORT_RECIPES.md` for ad hoc report
+workflow, and `AI_REFERENCE.md` for exact signatures.
 The real-world default is custom Plotly first, `ak.apply_theme()` second,
 then range ticks / final axis overrides, then `ak.save_chart()` or
 `ak.export_chart()`.
@@ -238,6 +243,54 @@ fig.add_trace(
 5. Present the file to the user
 
 Always save exported files to the workspace output directory so the user
+can find them.
+
+## Building Reports
+
+Use the report builder for polished one-off Bitwise reports, client request
+readouts, workflow audits, CIO notes, portfolio simulation summaries, and
+similar materials that should follow the Simmons/chart-generator report style.
+
+```python
+doc = ak.ReportDocument(
+    title="Client Request Analysis",
+    pages=[
+        ak.ReportPage(
+            title="What clients asked the sales team",
+            cover=True,
+            eyebrow="Research request log analysis",
+            subtitle="A cleaned and audited view of client questions.",
+            meta=[
+                ak.ReportMetaItem("Source rows", "312"),
+                ak.ReportMetaItem("Analyzed rows", "284"),
+                ak.ReportMetaItem("Prepared", "July 23, 2026"),
+            ],
+        ),
+        ak.ReportPage(
+            title="The signal is concentrated.",
+            kicker="Executive readout",
+            intro="A compact summary of the main findings.",
+            page_number=2,
+            content=ak.metric_grid([
+                ak.ReportMetric("Rows analyzed", "284"),
+                ak.ReportMetric("Top requester", "42"),
+                ak.ReportMetric("Top theme", "69"),
+            ]),
+        ),
+    ],
+)
+doc.save_html("outputs/client_request_report.html")
+```
+
+Default report helpers:
+
+- `ak.metric_grid()`, `ak.panel()`, `ak.bullet_list()`, `ak.html_table()`
+- `ak.chart_panel()`, `ak.image_panel()`
+- `ak.line_chart_svg()`, `ak.horizontal_bar_svg()`
+- `ak.export_report_pdf()`, `ak.render_pdf_pages()`, `ak.make_contact_sheet()`
+
+For report PDFs, export through Playwright, then render pages and inspect a
+contact sheet when layout matters.
 can access them.
 
 ## Deck-Ready Scripts

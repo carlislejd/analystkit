@@ -1,11 +1,15 @@
 # AnalystKit
 
-Bitwise brand theme and chart utilities for Plotly. Applies brand colors, fonts, grid styling, and automatic font scaling to any Plotly figure.
+Bitwise brand theme, chart utilities, and ad hoc report-building materials.
+Applies brand colors, fonts, grid styling, and automatic font scaling to any
+Plotly figure, and provides a canonical HTML/PDF report shell for polished
+Bitwise research and client-request readouts.
 
 ## For AI Assistants
 
 Start with [`AGENTS.md`](AGENTS.md) for agent instructions, then use
 [`CHART_RECIPES.md`](CHART_RECIPES.md) for production chart patterns and
+[`REPORT_RECIPES.md`](REPORT_RECIPES.md) for ad hoc report patterns. Use
 [`AI_REFERENCE.md`](AI_REFERENCE.md) for the complete API reference.
 
 ## Quick Start
@@ -53,6 +57,12 @@ pip install kaleido
 ### Time-Series
 - `apply_range_tick_marks()` — boundary ticks with midpoint labels for quarter/year/month/week periods
 
+### Reports
+- `ReportDocument`, `ReportPage`, `ReportMetric`, `ReportMetaItem` — canonical Bitwise report shell
+- `metric_grid()`, `panel()`, `html_table()`, `chart_panel()` — common report components
+- `line_chart_svg()`, `horizontal_bar_svg()` — compact report-native SVG charts
+- `export_report_pdf()`, `render_pdf_pages()`, `make_contact_sheet()` — HTML-to-PDF and QA helpers
+
 ### Constants
 - `BITWISE_COLORS`, `COLOR_HIERARCHY`, `CHART_COLORS`
 - `FONT_FAMILIES`, `FONT_SIZES`, `SIZE_PRESETS`, `MARGIN_PRESETS`
@@ -67,6 +77,8 @@ pip install kaleido
 4. **Horizontal y-axis gridlines only** — no vertical grid
 5. **Automatic color assignment** from the brand hierarchy based on series count
 6. **Any Plotly chart type** — `apply_theme()` works on any figure
+7. **Ad hoc reports share one house style** — dark Bitwise cover, compact KPI
+   cards, restrained pages, and rendered PDF QA
 
 ## Dependencies
 
@@ -75,3 +87,5 @@ pip install kaleido
 - Pandas >= 2.0.0
 - NumPy >= 1.21
 - kaleido (optional, for static image export)
+- playwright (optional, for report PDF export)
+- pillow (optional, for report contact sheets)

@@ -30,6 +30,26 @@ from .charts import (
     save_chart,
     apply_range_tick_marks,
 )
+from .reports import (
+    REPORT_COLORS,
+    REPORT_SERIES_COLORS,
+    ReportDocument,
+    ReportMetaItem,
+    ReportMetric,
+    ReportPage,
+    bullet_list,
+    chart_panel,
+    export_report_pdf,
+    horizontal_bar_svg,
+    html_table,
+    image_panel,
+    line_chart_svg,
+    make_contact_sheet,
+    metric_grid,
+    panel,
+    render_pdf_pages,
+    report_css,
+)
 
 __version__ = "0.5.0"
 __author__ = "Josh Carlisle <josh@bitwiseinvestments.com>"
@@ -50,6 +70,26 @@ __all__ = [
 
     # Time-series tick marks
     "apply_range_tick_marks",
+
+    # Report building
+    "REPORT_COLORS",
+    "REPORT_SERIES_COLORS",
+    "ReportDocument",
+    "ReportMetaItem",
+    "ReportMetric",
+    "ReportPage",
+    "bullet_list",
+    "chart_panel",
+    "export_report_pdf",
+    "horizontal_bar_svg",
+    "html_table",
+    "image_panel",
+    "line_chart_svg",
+    "make_contact_sheet",
+    "metric_grid",
+    "panel",
+    "render_pdf_pages",
+    "report_css",
 
     # Colors & styling constants
     "BITWISE_COLORS",

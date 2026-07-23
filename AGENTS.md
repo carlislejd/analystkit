@@ -7,10 +7,11 @@ an agent-facing chart production toolkit, not just a Python theme package.
 
 1. Read `CHART_RECIPES.md` for the production workflow and examples.
 2. Read `AI_REFERENCE.md` for exact function signatures and constants.
-3. Import the package as `import analystkit as ak`.
-4. For most real charts, build a normal Plotly `go.Figure`, then call
+3. Read `REPORT_RECIPES.md` when building an ad hoc report.
+4. Import the package as `import analystkit as ak`.
+5. For most real charts, build a normal Plotly `go.Figure`, then call
    `ak.apply_theme(fig, size_preset=..., margin_preset="minimal")`.
-5. Use `ak.create_chart()` only for simple bar, line, scatter, area, pie,
+6. Use `ak.create_chart()` only for simple bar, line, scatter, area, pie,
    histogram, box, violin, funnel, treemap, or sunburst charts.
 
 ## Default Chart Workflow
@@ -52,6 +53,25 @@ machine-readable facts such as `actual_end_date`, `actual_start_date`,
 `table_values`, or `overlay_images` in `fig.layout.meta` when downstream deck
 automation needs them.
 
+## Ad Hoc Reports
+
+Use the report builder for polished one-off Bitwise reports, client request
+readouts, workflow audits, CIO notes, portfolio simulation summaries, and
+similar materials that should feel like the Simmons/chart-generator report
+style.
+
+1. Build and audit the analysis first; save support CSV/JSON/workbook files.
+2. Use `ak.ReportDocument`, `ak.ReportPage`, `ak.ReportMetric`, and
+   `ak.ReportMetaItem` for the report shell.
+3. Use `ak.metric_grid()`, `ak.panel()`, `ak.html_table()`, `ak.chart_panel()`,
+   `ak.image_panel()`, `ak.line_chart_svg()`, and `ak.horizontal_bar_svg()`
+   before custom report CSS.
+4. Save HTML, export PDF with `ak.export_report_pdf()` or
+   `ReportDocument.export_pdf()`, then render pages and create/inspect a
+   contact sheet when layout matters.
+5. Keep the style dense but calm: dark Bitwise cover, compact KPI cards,
+   section pages with one clear thought, final audit/methodology trail.
+
 ## Quality Bar
 
 - Use explicit date parsing, numeric coercion, sorting, and unit conversion.
@@ -59,5 +79,7 @@ automation needs them.
 - Verify exported image dimensions and inspect the image when layout matters.
 - Save outputs into a predictable directory such as `design/`, `outputs/png/`,
   or the caller-provided output folder.
+- For reports, save HTML/PDF plus rendered page PNGs or a contact sheet when
+  visual layout matters.
 - Do not commit API keys, private datasets, generated credentials, or local
   output folders unless explicitly requested.
