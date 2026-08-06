@@ -287,12 +287,18 @@ def export_chart(
                 "Static image export requires kaleido. "
                 "Install with: pip install kaleido"
             )
-        fig.write_image(
-            filename,
-            width=export_width,
-            height=export_height,
-            scale=scale,
-        )
+        try:
+            fig.write_image(
+                filename,
+                width=export_width,
+                height=export_height,
+                scale=scale,
+            )
+        except Exception as exc:
+            raise RuntimeError(
+                "Static image export requires a working Kaleido/Chrome runtime. "
+                "Install or repair Kaleido and Chrome, then retry."
+            ) from exc
         return filename
 
     raise ValueError(

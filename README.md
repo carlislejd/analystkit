@@ -54,6 +54,31 @@ pip install kaleido
 - `export_chart()` — export to svg, png, jpg, pdf, webp, eps, html, or json
 - `save_chart()` — batch export in multiple formats with predefined aspect ratios
 
+### Production contract (0.6.0)
+
+Use this additive layer for portable deck, standalone, and report figures:
+
+```python
+fig = ak.apply_chart_profile(fig, profile="deck", size_preset="3:1")
+ak.attach_chart_metadata(
+    fig, chart_id="bitcoin.performance", display_name="Bitcoin Performance",
+    actual_start_date="2026-01-01", actual_end_date="2026-06-30",
+    data_as_of="2026-06-30", source_labels=["Calling-project data"],
+    units="percent return", time_series=True,
+)
+result = ak.export_chart_bundle(fig, "outputs", "bitcoin_performance",
+                                formats=("png", "svg", "html", "json"))
+```
+
+- `apply_chart_profile()` — composes semantic `deck`, `standalone`, or `report`
+  behavior with the existing theme and size presets
+- `attach_chart_metadata()` / `get_chart_metadata()` — JSON-safe contract
+  metadata in `fig.layout.meta`, preserving caller fields
+- `validate_chart()` / `validate_build_function()` — machine-readable checks
+- `export_chart_bundle()` — requested artifacts and a SHA-256 manifest
+- `python -m analystkit.migration TARGET --json inventory.json` — read-only AST
+  readiness audit; it never imports target scripts
+
 ### Time-Series
 - `apply_range_tick_marks()` — boundary ticks with midpoint labels for quarter/year/month/week periods
 

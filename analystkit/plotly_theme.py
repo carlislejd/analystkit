@@ -54,7 +54,10 @@ def _apply_axis_buffers(fig):
         vals = []
         for t in fig.data:
             if hasattr(t, 'x') and t.x is not None:
-                arr = np.array(t.x, dtype=float)
+                try:
+                    arr = np.array(t.x, dtype=float)
+                except (TypeError, ValueError):
+                    continue
                 vals.extend(arr[np.isfinite(arr)].tolist())
         rng = _calculate_axis_buffer(vals)
         if rng:
@@ -63,7 +66,10 @@ def _apply_axis_buffers(fig):
         vals = []
         for t in fig.data:
             if hasattr(t, 'y') and t.y is not None:
-                arr = np.array(t.y, dtype=float)
+                try:
+                    arr = np.array(t.y, dtype=float)
+                except (TypeError, ValueError):
+                    continue
                 vals.extend(arr[np.isfinite(arr)].tolist())
         rng = _calculate_axis_buffer(vals)
         if rng:

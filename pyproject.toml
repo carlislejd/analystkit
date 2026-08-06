@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "analystkit"
-version = "0.5.0"
+version = "0.6.0"
 description = "Bitwise brand theme, chart utilities, report materials, and export helpers."
 authors = ["Josh Carlisle <josh@bitwiseinvestments.com>"]
 readme = "README.md"

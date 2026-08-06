@@ -136,6 +136,32 @@ save_chart(
 ) -> Dict[str, str]
 ```
 
+### Production contract
+
+```python
+apply_chart_profile(fig, profile="deck", size_preset=None, margin_preset="minimal",
+                    width=None, height=None, auto_colors=True) -> go.Figure
+attach_chart_metadata(fig, metadata=None, **fields) -> go.Figure
+get_chart_metadata(fig) -> dict
+validate_chart(fig, profile=None, exceptions=None) -> dict
+validate_build_function(build_figure) -> dict
+export_chart_bundle(fig, output_dir, stem, formats=("png", "svg", "html", "json"),
+                    profile=None, exceptions=None, scale=2) -> dict
+```
+
+`CHART_PROFILES` is `("deck", "standalone", "report")`. Metadata is stored
+under `fig.layout.meta["analystkit"]`; arbitrary metadata already on the
+figure is retained. Common fields are `chart_id`, `display_name`, `profile`,
+`requested_start_date`, `requested_end_date`, `actual_start_date`,
+`actual_end_date`, `data_as_of`, `source_labels`, `source_table_ids`, `units`,
+`audit_fingerprint`, `table_values`, and `overlay_images`. Set `time_series`
+to require actual coverage and data-as-of in validation.
+
+Validation returns `{"valid", "profile", "errors", "warnings", "metadata"}`.
+Pass stable per-recipe check codes in `exceptions` only for documented cases.
+Bundles write `<stem>.manifest.json` with validation, file names/hashes/sizes,
+dimensions/scales, generated timestamp, and runtime version.
+
 ---
 
 ## Report Building

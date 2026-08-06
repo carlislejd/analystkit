@@ -65,6 +65,69 @@ Default rules for deck-bound charts:
 - Put automation facts such as actual date coverage, table values, and overlay
   image metadata in `fig.layout.meta`; do not render them as chart furniture.
 
+## Standalone Editorial Style
+
+For public-facing, self-contained research charts, use the visual benchmark in
+[`STYLE_REFERENCES.md`](STYLE_REFERENCES.md). It is intentionally distinct
+from the deck style: large left-aligned title, breathing room, restrained
+horizontal grids, semantic series colors, and a compact endpoint-aware dot
+legend. Use `profile="standalone"`; source/footer/wordmark remain calling
+project responsibilities until their asset and legal wording are standardized.
+
+```python
+fig = ak.apply_chart_profile(fig, "standalone", size_preset="18:9",
+                             margin_preset="standard", auto_colors=False)
+fig.update_layout(
+    title=dict(text="Chart title", x=0.03, xanchor="left",
+               font=dict(family=ak.FONT_FAMILIES["title"])),
+    margin=dict(l=100, r=60, t=135, b=135),
+)
+fig.update_yaxes(zeroline=True, zerolinecolor="#7D8080")
+```
+
+## Legend-Led Deck Charts
+
+The reference charts in `STYLE_REFERENCES.md` use a titleless, centered-dot
+legend to let a slide heading carry the narrative. This is a good default for
+stacked bars and raw-versus-smoothed overlays.
+
+```python
+fig = ak.apply_chart_profile(fig, "deck", size_preset="3:1",
+                             margin_preset="minimal", auto_colors=False)
+fig.update_layout(
+    legend=dict(orientation="h", x=0.5, xanchor="center", y=1.08,
+                yanchor="bottom"),
+    margin=dict(l=70, r=30, t=74, b=70),
+)
+fig.update_xaxes(tickangle=90)
+```
+
+For a raw time series plus smoothing, use a translucent green area/line for
+the raw signal and an opaque charcoal trace for the rolling average. For
+positive/negative flow bars, use semantic green/red with an explicit zero
+line and parenthesized negative dollar labels. Add direct bar values only to
+sparse categorical comparisons where the labels improve the read.
+
+## Paired Bars and Cumulative Areas
+
+For an explicit two-way comparison, use grouped bars: the lead series in
+Bitwise green and the comparator in charcoal. For a composition over time,
+use a solid stacked area with stable ordering and no outlines.
+
+```python
+# Cumulative composition; add traces from the baseline upward.
+for name, column, color in series:
+    fig.add_trace(go.Scatter(
+        x=df["date_string"], y=df[column], name=name, mode="lines",
+        stackgroup="one", line=dict(width=0), fillcolor=color,
+        showlegend=False,
+    ))
+```
+
+Add marker-only legend traces after the visible stacked-area traces when the
+top legend needs circular dots. Keep "Others" last and gray; do not re-order
+the stack from refresh to refresh.
+
 ## Basic Setup
 
 ```python
@@ -101,6 +164,32 @@ Use Plotly plus `ak.apply_theme()` when:
   heatmap, table, candlestick, inset metric box, or custom annotation.
 - You need semantic colors, manual tick labels, or a specific y-axis range.
 - The script will be called by a deck refresh system.
+
+## Governed Production Contract
+
+For a portable production chart, use `ak.apply_chart_profile()` instead of a
+bare theme call, then add metadata and validate before delivery. Profiles do
+not replace sizing or custom Plotly work: `deck` removes embedded title/axis
+furniture, `standalone` preserves self-contained context, and `report` marks a
+figure intended for a report panel.
+
+```python
+fig = ak.apply_chart_profile(fig, "deck", size_preset="3:1", margin_preset="minimal")
+ak.attach_chart_metadata(
+    fig, chart_id="quarterly.etf_flows", display_name="Monthly Net Flows",
+    requested_start_date=resolved_start, requested_end_date=resolved_end,
+    actual_start_date=actual_start, actual_end_date=actual_end,
+    data_as_of=actual_end, source_labels=["Project-owned source"],
+    units="USD billions", time_series=True,
+)
+assert ak.validate_chart(fig)["valid"]
+ak.export_chart_bundle(fig, "design", "monthly_flows", formats=("png", "svg", "html", "json"))
+```
+
+The manifest includes metadata, validation, file hashes, dimensions, scale,
+runtime AnalystKit version, and creation time. Static formats require Kaleido;
+HTML and JSON do not. Existing `apply_theme`, `save_chart`, and `export_chart`
+calls remain compatible.
 
 ## Deck-Native Layout Pattern
 

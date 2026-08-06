@@ -18,11 +18,14 @@ an agent-facing chart production toolkit, not just a Python theme package.
 
 1. Load and normalize data into a tidy pandas DataFrame.
 2. Build the figure with Plotly graph objects when you need control.
-3. Apply AnalystKit theme before final axis, annotation, or export tweaks.
+3. Use `ak.apply_chart_profile(fig, "deck", ...)` for governed production
+   charts; otherwise apply AnalystKit theme before final axis or annotation tweaks.
 4. Use `ak.apply_range_tick_marks()` for date ranges with quarterly, yearly,
    monthly, or weekly boundary ticks.
-5. Export with `ak.save_chart()` for common deliverables or `ak.export_chart()`
-   for one explicit file.
+5. Attach JSON-safe metadata with `ak.attach_chart_metadata()`, validate with
+   `ak.validate_chart()`, then use `ak.export_chart_bundle()` when an
+   inspectable manifest is required. `save_chart()` and `export_chart()` remain
+   supported for existing/simple deliverables.
 
 ## Production Defaults
 
@@ -36,6 +39,14 @@ an agent-facing chart production toolkit, not just a Python theme package.
 - When using custom colors, pull from `ak.get_color_palette()` or
   `ak.BITWISE_COLORS`.
 - Static PNG, SVG, PDF, WEBP, JPG, and EPS export requires Kaleido.
+- For public-facing standalone graphics, follow `STYLE_REFERENCES.md`; retain
+  the deck profile's title/footer-free rules for slide assets.
+- For dense deck charts, prefer a centered top dot legend, fixed finance ticks,
+  semantic stacked-bar order, and quiet raw-versus-smoothed overlays as
+  documented in `STYLE_REFERENCES.md`.
+- Use green/charcoal paired bars for primary-versus-comparator views. For
+  cumulative composition, stack solid no-outline areas from dominant baseline
+  category to gray "Others" and preserve series order across refreshes.
 
 ## Deck-Compatible Scripts
 
@@ -52,6 +63,14 @@ Keep file writing in a separate `save_outputs()` or `main()` function. Put
 machine-readable facts such as `actual_end_date`, `actual_start_date`,
 `table_values`, or `overlay_images` in `fig.layout.meta` when downstream deck
 automation needs them.
+
+For new governed production charts, set an explicit profile (`deck`,
+`standalone`, or `report`) and attach `chart_id`, display name, requested and
+actual coverage, data-as-of, sources, and units. The contract metadata lives
+under `fig.layout.meta["analystkit"]` and preserves all other caller metadata.
+Use `ak.validate_build_function(build_figure)` in a test. Keep network,
+database, and file writes outside import time; the read-only migration audit
+can inventory a project with `python -m analystkit.migration PATH --json out.json`.
 
 ## Ad Hoc Reports
 

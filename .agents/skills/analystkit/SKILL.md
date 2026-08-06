@@ -21,6 +21,12 @@ The real-world default is custom Plotly first, `ak.apply_theme()` second,
 then range ticks / final axis overrides, then `ak.save_chart()` or
 `ak.export_chart()`.
 
+For a governed portable chart, use `ak.apply_chart_profile()` (usually
+`"deck"`) in place of the bare theme call, attach JSON-safe metadata with
+`ak.attach_chart_metadata()`, check `ak.validate_chart(fig)`, then export via
+`ak.export_chart_bundle()`. This keeps artifact manifests and migration
+behavior consistent without moving project data logic into AnalystKit.
+
 ## Current Deck Style
 
 For composite deck and quarterly report charts, the chart image should be

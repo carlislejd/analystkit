@@ -30,6 +30,15 @@ from .charts import (
     save_chart,
     apply_range_tick_marks,
 )
+from .production import (
+    CHART_PROFILES,
+    apply_chart_profile,
+    attach_chart_metadata,
+    get_chart_metadata,
+    validate_chart,
+    validate_build_function,
+    export_chart_bundle,
+)
 from .reports import (
     REPORT_COLORS,
     REPORT_SERIES_COLORS,
@@ -51,7 +60,7 @@ from .reports import (
     report_css,
 )
 
-__version__ = "0.5.0"
+__version__ = "0.6.0"
 __author__ = "Josh Carlisle <josh@bitwiseinvestments.com>"
 
 __all__ = [
@@ -70,6 +79,15 @@ __all__ = [
 
     # Time-series tick marks
     "apply_range_tick_marks",
+
+    # Production contract
+    "CHART_PROFILES",
+    "apply_chart_profile",
+    "attach_chart_metadata",
+    "get_chart_metadata",
+    "validate_chart",
+    "validate_build_function",
+    "export_chart_bundle",
 
     # Report building
     "REPORT_COLORS",
